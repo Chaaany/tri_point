@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.triple.mapper.PlaceMapper">
+	
+	
+	<!-- 전체 장소 조회 -->
+	<select id="getAllPlace" resultType="placeDto">
+		select placeId, uploadUserId, uploadDate, reviewCount
+		from place
+		order by uploadDate
+	</select>
+	
+	<!-- 장소 등록 -->
+	<insert id="uploadPlace" parameterType="placeDto">
+		insert into place(
+			placeId, uploadUserId, reviewCount
+		) values (
+			#{placeId}, #{uploadUserId}, #{reviewCount}
+		)
+	</insert>
+	
+	<!-- 장소 조회 -->
+	<select id="placeInfo" parameterType="string" resultType="placeDto">
+		select placeId, uploadUserId, uploadDate, reviewCount
+		from place 
+		where placeId = #{placeid}
+	</select>
+	
+	<!-- 장소 정보 수정 -->
+	<update id="updatePlace" parameterType="placeDto">
+		update place 
+		   set uploadUserId = #{uploadUserId},
+	   		   reviewCount = #{reviewCount}
+		 where placeId = #{placeId}
+	</update>
+	
+	<!-- 장소 삭제 -->
+	<delete id="deletePlace" parameterType="String">
+		delete 
+		from place
+		where placeId = #{placeid}
+	</delete>
+	
+</mapper>

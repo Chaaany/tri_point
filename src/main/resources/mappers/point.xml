@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.triple.mapper.PointMapper">
+	
+	
+	<!-- 전체 포인트 조회 -->
+	<select id="getAllPoint" resultType="pointDto">
+		select pointId, userId, activityType, pointScore, pointType, createdDate
+		from point
+		order by pointId
+	</select>
+	
+	<!-- 포인트 적립 데이터 생성 -->
+	<insert id="plusPoint" parameterType="pointDto">
+		insert into point(
+			 userId, activityType, pointScore, pointType
+		) values (
+			#{userId}, #{activityType}, #{pointScore}, #{pointType}
+		)
+	</insert>
+	
+	<!-- 포인트 차감 데이터 생성 -->
+	<insert id="minusPoint" parameterType="pointDto">
+		insert into point(
+			 userId, activityType, pointScore, pointType
+		) values (
+			#{userId}, #{activityType}, #{pointScore}, #{pointType}
+		)
+	</insert>
+	
+	<!-- 포인트 정보 조회 -->
+	<select id="pointInfo" parameterType="string" resultType="pointDto">
+		select pointId, userId, activityType, pointScore, pointType, createdDate
+		from point
+		where pointId = #{pointid}
+	</select>
+	
+	<!-- 포인트 정보 수정 -->
+	<update id="updatePoint" parameterType="pointDto">
+		update point 
+		   set pointId = #{pointId},
+	   		   pointScore = #{pointScore}
+		 where pointId = #{pointId}
+	</update>
+	
+	<!-- 장소 삭제 -->
+	<delete id="deletePoint" parameterType="String">
+		delete 
+		from point
+		where pointId = #{pointid}
+	</delete>
+	
+</mapper>

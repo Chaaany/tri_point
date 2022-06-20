@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.triple.mapper.AttachedPhotoMapper">
+	
+	
+	<!-- 전체 사진 조회 -->
+	<select id="getAllPhoto" resultType="attachedPhotoDto">
+		select attachedPhotoId, originType, uploadUserId, uploadedDate, isDeleted, isUnsigned, deletedDate  
+		from attachedphoto
+		order by uploadedDate
+	</select>
+	
+	<!-- 사진 업로드 -->
+	<insert id="uploadPhoto" parameterType="attachedPhotoDto">
+		insert into attachedphoto(
+			attachedPhotoId, originType, uploadUserId
+		) values (
+			#{attachedPhotoId}, #{originType}, #{uploadUserId}
+		)
+	</insert>
+	
+	<!-- 사진 조회 -->
+	<select id="userInfo" parameterType="string" resultType="attachedPhotoDto">
+		select attachedPhotoId, originType, uploadUserId, uploadedDate, isDeleted, isUnsigned, deletedDate  
+		from attachedphoto 
+		where attachedPhotoId = #{photoid}
+	</select>
+	
+	<!-- 사진 정보 수정 -->
+	<update id="updateUser" parameterType="attachedPhotoDto">
+		update attachedphoto 
+		   set isDeleted = #{isDeleted},
+	   		   deletedDate = #{deletedDate}
+		 where attachedPhotoId = #{attachedPhotoId}
+	</update>
+	
+	<!-- 사진 삭제 -->
+	<delete id="deleteUser" parameterType="String">
+		delete 
+		from attachedphoto
+		where attachedPhotoId = #{photoid}
+	</delete>
+	
+</mapper>
