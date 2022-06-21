@@ -2,45 +2,50 @@ package com.triple.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.triple.controller.MainController;
 import com.triple.dto.ReviewDto;
 import com.triple.mapper.ReviewMapper;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
+	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+	
 	@Autowired
 	private ReviewMapper reviewMapper;
 
 	@Override
-	public List<ReviewDto> getAllReview() throws Exception {
-		return reviewMapper.getAllReview();
+	public List<ReviewDto> getAllReviewInfo() {
+		try {
+			return reviewMapper.getAllReviewInfo();
+		} catch (Exception e) {
+			logger.debug("get all review error");
+			return null;
+		}
 	}
 
 	@Override
-	@Transactional
-	public boolean uploadReview(ReviewDto reviewdto) throws Exception {
-		return reviewMapper.uploadReview(reviewdto) == 1;
+	public ReviewDto getReviewInfo(String reviewid) {
+		try {
+			return reviewMapper.getReviewInfo(reviewid);
+		} catch (Exception e) {
+			logger.debug("get review info error");
+			return null;
+		}
 	}
 
 	@Override
-	public ReviewDto reviewInfo(String reviewid) throws Exception {
-		return reviewMapper.reviewInfo(reviewid);
+	public int getPlaceReviewCount(String placeid) {
+		try {
+			return reviewMapper.getPlaceReviewCount(placeid);
+		} catch (Exception e) {
+			logger.debug("get place review count error");
+			return -1;
+		}
 	}
-
-	@Override
-	@Transactional
-	public boolean modifyReview(ReviewDto reviewdto) throws Exception {
-		return reviewMapper.modifyReview(reviewdto) == 1;
-	}
-
-	@Override
-	@Transactional
-	public boolean deleteReview(String reviewid) throws Exception {
-		return reviewMapper.deleteReview(reviewid) == 1;
-	}
-
 }

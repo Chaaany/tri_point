@@ -22,11 +22,9 @@ public class UserDto {
 	private String unsignedDate;
 	@ApiModelProperty(value = "추천인 여부")
 	private int isRecommendated;
-	@ApiModelProperty(value = "누적 포인트")
-	private int totalPoint;
 
 	public UserDto(String userId, String nickname, String password, String registrationDate,
-			String nicknameModifiedDate, int isUnsigned, String unsignedDate, int isRecommendated, int totalPoint) {
+			String nicknameModifiedDate, int isUnsigned, String unsignedDate, int isRecommendated) {
 		super();
 		this.userId = userId;
 		this.nickname = nickname;
@@ -36,7 +34,6 @@ public class UserDto {
 		this.isUnsigned = isUnsigned;
 		this.unsignedDate = unsignedDate;
 		this.isRecommendated = isRecommendated;
-		this.totalPoint = totalPoint;
 	}
 
 	public String getUserId() {
@@ -79,8 +76,8 @@ public class UserDto {
 		this.nicknameModifiedDate = nicknameModifiedDate;
 	}
 
-	public int getIsUnsigned() {
-		return isUnsigned;
+	public boolean getIsUnsigned() {
+		return isUnsigned == 1;
 	}
 
 	public void setIsUnsigned(int isUnsigned) {
@@ -95,28 +92,19 @@ public class UserDto {
 		this.unsignedDate = unsignedDate;
 	}
 
-	public int getIsRecommendated() {
-		return isRecommendated;
+	public boolean getIsRecommendated() {
+		return isRecommendated == 1 ;
 	}
 
 	public void setIsRecommendated(int isRecommendated) {
 		this.isRecommendated = isRecommendated;
 	}
 
-	public int getTotalPoint() {
-		return totalPoint;
-	}
-
-	public void setTotalPoint(int totalPoint) {
-		this.totalPoint = totalPoint;
-	}
-
 	@Override
 	public String toString() {
 		return "UserDto [userId=" + userId + ", nickname=" + nickname + ", password=" + password + ", registrationDate="
 				+ registrationDate + ", nicknameModifiedDate=" + nicknameModifiedDate + ", isUnsigned=" + isUnsigned
-				+ ", unsignedDate=" + unsignedDate + ", isRecommendated=" + isRecommendated + ", totalPoint="
-				+ totalPoint + "]";
+				+ ", unsignedDate=" + unsignedDate + ", isRecommendated=" + isRecommendated + "]";
 	}
 
 }

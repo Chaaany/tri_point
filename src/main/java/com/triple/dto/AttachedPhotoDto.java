@@ -9,7 +9,9 @@ public class AttachedPhotoDto {
 	@ApiModelProperty(value = "첨부된 사진파일 ID")
 	private String attachedPhotoId;
 	@ApiModelProperty(value = "사진 파일 업로드된 활동 종류")
-	private int originType;
+	private int attachedActivityType;
+	@ApiModelProperty(value = "사진 파일 업로드 활동 Id")
+	private String attachedActivityId;
 	@ApiModelProperty(value = "사진 파일 업로드 사용자 Id")
 	private String uploadUserId;
 	@ApiModelProperty(value = "사진 파일 업로드 일자")
@@ -19,19 +21,20 @@ public class AttachedPhotoDto {
 	@ApiModelProperty(value = "사진 파일 삭제 일자")
 	private String deletedDate;
 
-	public AttachedPhotoDto(String attachedPhotoId, int originType, String uploadUserId, String uploadedDate,
+	public AttachedPhotoDto(String attachedPhotoId, int attachedActivityType, String attachedActivityId,  String uploadUserId, String uploadedDate,
 			int isDeleted, String deletedDate) {
 		this.attachedPhotoId = attachedPhotoId;
-		this.originType = originType;
+		this.attachedActivityType = attachedActivityType;
+		this.attachedActivityId = attachedActivityId;
 		this.uploadUserId = uploadUserId;
 		this.uploadedDate = uploadedDate;
 		this.isDeleted = isDeleted;
 		this.deletedDate = deletedDate;
 	}
 
-	public AttachedPhotoDto(String attachedPhotoId, int originType, String uploadUserId) {
+	public AttachedPhotoDto(String attachedPhotoId, int attachedActivityType, String uploadUserId) {
 		this.attachedPhotoId = attachedPhotoId;
-		this.originType = originType;
+		this.attachedActivityType = attachedActivityType;
 		this.uploadUserId = uploadUserId;
 	}
 
@@ -43,12 +46,19 @@ public class AttachedPhotoDto {
 		this.attachedPhotoId = attachedPhotoId;
 	}
 
-	public int getOriginType() {
-		return originType;
+	public int getattachedActivityType() {
+		return attachedActivityType;
+	}
+	
+	public void setattachedActivityType(int attachedActivityType) {
+		this.attachedActivityType = attachedActivityType;
+	}
+	public String getAttachedActivityId() {
+		return attachedActivityId;
 	}
 
-	public void setOriginType(int originType) {
-		this.originType = originType;
+	public void setAttachedActivityId(String attachedActivityId) {
+		this.attachedActivityId = attachedActivityId;
 	}
 
 	public String getUploadUserId() {
@@ -67,8 +77,8 @@ public class AttachedPhotoDto {
 		this.uploadedDate = uploadedDate;
 	}
 
-	public int getIsDeleted() {
-		return isDeleted;
+	public boolean getIsDeleted() {
+		return isDeleted == 1;
 	}
 
 	public void setIsDeleted(int isDeleted) {
@@ -85,9 +95,10 @@ public class AttachedPhotoDto {
 
 	@Override
 	public String toString() {
-		return "AttachedPhotoDto [attachedPhotoId=" + attachedPhotoId + ", originType=" + originType + ", uploadUserId="
-				+ uploadUserId + ", uploadedDate=" + uploadedDate + ", isDeleted=" + isDeleted + ", deletedDate="
-				+ deletedDate + "]";
+		return "AttachedPhotoDto [attachedPhotoId=" + attachedPhotoId + ", attachedActivityType=" + attachedActivityType
+				+ ", attachedActivityId=" + attachedActivityId + ", uploadUserId=" + uploadUserId + ", uploadedDate="
+				+ uploadedDate + ", isDeleted=" + isDeleted + ", deletedDate=" + deletedDate + "]";
 	}
+
 
 }

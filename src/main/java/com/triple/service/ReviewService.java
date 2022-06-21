@@ -6,14 +6,10 @@ import com.triple.dto.ReviewDto;
 
 public interface ReviewService {
 
-	public List<ReviewDto> getAllReview() throws Exception;
+	public List<ReviewDto> getAllReviewInfo();
 
-	public boolean uploadReview(ReviewDto reviewdto) throws Exception;
+	public ReviewDto getReviewInfo(String reviewid);
 
-	public ReviewDto reviewInfo(String reviewid) throws Exception;
-
-	public boolean modifyReview(ReviewDto reviewdto) throws Exception;
-
-	public boolean deleteReview(String reviewid) throws Exception;
+	public int getPlaceReviewCount(String placeid);
 
 }

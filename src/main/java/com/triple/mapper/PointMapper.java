@@ -7,16 +7,15 @@ import com.triple.dto.PointDto;
 
 public interface PointMapper {
 
-	public List<PointDto> getAllPoint() throws SQLException;
-	
-	public int plusPoint(PointDto pointdto) throws SQLException;
-	
-	public int minusPoint(PointDto pointdto) throws SQLException;
-	
-	public PointDto pointInfo(String pointid) throws SQLException;
-	
-	public int updatePoint(PointDto pointdto) throws SQLException;
+	public int createPointData(PointDto pointdto) throws SQLException;
 
-	public int deletePoint(String pointid) throws SQLException;
+	public List<PointDto> getAllUserPoint() throws SQLException;
 
+	public List<PointDto> getAllPointRecords() throws SQLException;
+
+	public PointDto getUserPoint(String userid) throws SQLException;
+	
+	public List<PointDto> getUserPointRecords(String userid) throws SQLException;
+
+	public List<PointDto> getUserPointRecordsOfSpecificActivity(String userId, String activityId);
 }

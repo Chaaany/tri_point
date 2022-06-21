@@ -7,15 +7,9 @@ import com.triple.dto.ReviewDto;
 
 public interface ReviewMapper {
 	
-	public List<ReviewDto> getAllReview() throws SQLException;
+	public List<ReviewDto> getAllReviewInfo() throws SQLException;
 	
-	public int uploadReview(ReviewDto reviewdto) throws SQLException;
+	public ReviewDto getReviewInfo(String reviewid) throws SQLException;
 	
-	public ReviewDto reviewInfo(String reviewid) throws SQLException;
-	
-	public int modifyReview(ReviewDto reviewdto) throws SQLException;
-
-	public int deleteReview(String reviewid) throws SQLException;
-
-
+	public int getPlaceReviewCount(String placeid);
 }

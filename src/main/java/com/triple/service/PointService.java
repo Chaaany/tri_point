@@ -1,21 +1,24 @@
 package com.triple.service;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.triple.dto.PointDto;
 
 public interface PointService {
+	
+	public List<PointDto> getAllUserPoint();
 
-	public List<PointDto> getAllPoint() throws Exception;
+	public List<PointDto> getAllPointRecords();
 	
-	public boolean plusPoint(PointDto pointdto) throws Exception;
-	
-	public boolean minusPoint(PointDto pointdto) throws Exception;
-	
-	public PointDto pointInfo(String pointid) throws Exception;
-	
-	public boolean updatePoint(PointDto pointdto) throws Exception;
+	public PointDto getUserPoint(String userid);
 
-	public boolean deletePoint(String pointid) throws Exception;
+	public List<PointDto> getUserPointRecords(String userid);
+	
+	public boolean uploadReview(ConcurrentHashMap<String, Object> event);
+
+	public boolean modifyReview(ConcurrentHashMap<String, Object> event);
+
+	public boolean deleteReview(ConcurrentHashMap<String, Object> event);
 
 }

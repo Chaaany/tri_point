@@ -7,15 +7,10 @@ import com.triple.dto.AttachedPhotoDto;
 
 public interface AttachedPhotoMapper {
 
-	public List<AttachedPhotoDto> getAllPhoto() throws SQLException;
+	public List<AttachedPhotoDto> getAllPhotoInfo() throws SQLException;
 	
-	public int uploadPhoto(AttachedPhotoDto photodto) throws SQLException;
+	public AttachedPhotoDto getPhotoInfo(String photoid) throws SQLException;
+
+	public List<AttachedPhotoDto> getSpecificAcitivityPhotoInfo(String activityId) throws SQLException;
 	
-	public AttachedPhotoDto photoInfo(String photoid) throws SQLException;
-	
-	public int updatePhoto(AttachedPhotoDto photodto) throws SQLException;
-
-	public int deletePhoto(String photoid) throws SQLException;
-
-
 }

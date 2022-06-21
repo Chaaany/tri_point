@@ -10,15 +10,19 @@ public class PlaceDto {
 	@ApiModelProperty(value = "장소 등록 사용자 id")
 	private String uploadUserId;
 	@ApiModelProperty(value = "장소 등록 일자")
-	private String uploadDate;
-	@ApiModelProperty(value = "리뷰 여부(첫 리뷰 존재 여부)")
-	private int reviewCount;
+	private String uploadedDate;
+	@ApiModelProperty(value = "사진 파일 삭제 여부")
+	private int isDeleted;
+	@ApiModelProperty(value = "사진 파일 삭제 일자")
+	private String deletedDate;
 
-	public PlaceDto(String placeId, String uploadUserId, String uploadDate, int reviewCount) {
+	public PlaceDto(String placeId, String uploadUserId, String uploadedDate, int isDeleted, String deletedDate) {
+		super();
 		this.placeId = placeId;
 		this.uploadUserId = uploadUserId;
-		this.uploadDate = uploadDate;
-		this.reviewCount = reviewCount;
+		this.uploadedDate = uploadedDate;
+		this.isDeleted = isDeleted;
+		this.deletedDate = deletedDate;
 	}
 
 	public String getPlaceId() {
@@ -37,27 +41,34 @@ public class PlaceDto {
 		this.uploadUserId = uploadUserId;
 	}
 
-	public String getUploadDate() {
-		return uploadDate;
+	public String getUploadedDate() {
+		return uploadedDate;
 	}
 
-	public void setUploadDate(String uploadDate) {
-		this.uploadDate = uploadDate;
+	public void setUploadedDate(String uploadedDate) {
+		this.uploadedDate = uploadedDate;
 	}
 
-
-	public int getReviewCount() {
-		return reviewCount;
+	public boolean getIsDeleted() {
+		return isDeleted == 1;
 	}
 
-	public void setReviewCount(int reviewCount) {
-		this.reviewCount = reviewCount;
+	public void setIsDeleted(int isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public String getDeletedDate() {
+		return deletedDate;
+	}
+
+	public void setDeletedDate(String deletedDate) {
+		this.deletedDate = deletedDate;
 	}
 
 	@Override
 	public String toString() {
-		return "PlaceDto [placeId=" + placeId + ", uploadUserId=" + uploadUserId + ", uploadDate=" + uploadDate
-				+ ", isReviewed=" + reviewCount + "]";
+		return "PlaceDto [placeId=" + placeId + ", uploadUserId=" + uploadUserId + ", uploadedDate=" + uploadedDate
+				+ ", isDeleted=" + isDeleted + ", deletedDate=" + deletedDate + "]";
 	}
 
 }

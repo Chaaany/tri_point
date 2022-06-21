@@ -2,10 +2,12 @@ package com.triple.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.triple.controller.MainController;
 import com.triple.dto.UserDto;
 import com.triple.mapper.UserMapper;
 
@@ -14,33 +16,27 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserMapper userMapper;
+	
+	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
 	@Override
-	public List<UserDto> getAllUser() throws Exception {
-		return userMapper.getAllUser();
+	public List<UserDto> getAllUserInfo() {
+		try {
+			return userMapper.getAllUserInfo();
+		} catch (Exception e) {
+			logger.debug("get all user info error");
+			return null;
+		}
 	}
 
 	@Override
-	@Transactional
-	public boolean registerUser(UserDto userdto) throws Exception {
-		return userMapper.registerUser(userdto) == 1;
-	}
-
-	@Override
-	public UserDto userInfo(String userid) throws Exception {
-		return userMapper.userInfo(userid);
-	}
-
-	@Override
-	@Transactional
-	public boolean updateUser(UserDto userdto) throws Exception {
-		return userMapper.updateUser(userdto) == 1;
-	}
-
-	@Override
-	@Transactional
-	public boolean deleteUser(String userid) throws Exception {
-		return userMapper.deleteUser(userid) == 1;
+	public UserDto getUserInfo(String userid) {
+		try {
+			return userMapper.getUserInfo(userid);
+		} catch (Exception e) {
+			logger.debug("get user info error");
+			return null;
+		}
 	}
 
 }
