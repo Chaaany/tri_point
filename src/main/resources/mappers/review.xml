@@ -5,43 +5,28 @@
 <mapper namespace="com.triple.mapper.ReviewMapper">
 	
 	
-	<!-- 전체 리뷰 조회 -->
-	<select id="getAllReview" resultType="reviewDto">
-		select reviewId, placeId, userId, content, isDeleted, reviewedDate, modifiedDate, deletedDate, attachedPhotoCount
+	<!-- 전체 리뷰 정보 조회 -->
+	<select id="getAllReviewInfo" resultType="reviewDto">
+		select reviewId, placeId, userId, content, isDeleted, uploadedDate, modifiedDate, deletedDate
 		from review
-		order by reviewedDate
+		order by uploadedDate
 	</select>
 	
-	<!-- 리뷰 등록 -->
-	<insert id="uploadReview" parameterType="reviewDto">
-		insert into review(
-			reviewId, placeId, userId, content, attachedPhotoCount
-		) values (
-			#{reviewId}, #{placeId}, #{userId}, #{content}, #{attachedPhotoCount}
-		)
-	</insert>
+	<!-- 특정 리뷰 정보 조회 -->
+	<select id="getReviewInfo" parameterType="String" resultType="reviewDto">
+		select reviewId, placeId, userId, content, isDeleted, uploadedDate, modifiedDate, deletedDate
+		from review
+		where reviewId = #{reviewid}
+		order by uploadedDate
+	</select>
 	
-	<!-- 리뷰 조회 -->
-	<select id="reviewInfo" parameterType="string" resultType="reviewDto">
-		select reviewId, placeId, userId, content, isDeleted, reviewedDate, modifiedDate, deletedDate, attachedPhotoCount
+	<!-- 특정 장소에 대한 첫 리뷰 조회 -->
+	<select id="getPlaceFirstReview" parameterType="String" resultType="reviewDto">
+		select reviewId, placeId, userId, content, isDeleted, uploadedDate, modifiedDate, deletedDate
 		from review 
-		where reviewId = #{reviewid}
+		where placeId = #{placeid} and isDeleted = 0
+		order by uploadedDate asc 
+		limit 1
 	</select>
-	
-	<!-- 리뷰 정보 수정 -->
-	<update id="modifyReview" parameterType="reviewDto">
-		update review 
-		   set content = #{content},
-	   		   modifiedDate = #{modifiedDate},
-	   		   attachedPhotoCount = #{attachedPhotoCount}
-		 where reviewId = #{reviewId}
-	</update>
-	
-	<!-- 리뷰 삭제 -->
-	<delete id="deleteReview" parameterType="String">
-		delete 
-		from review
-		where reviewId = #{reviewid}
-	</delete>
 	
 </mapper>

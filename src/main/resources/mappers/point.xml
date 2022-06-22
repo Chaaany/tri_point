@@ -4,52 +4,51 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.triple.mapper.PointMapper">
 	
-	
-	<!-- 전체 포인트 조회 -->
-	<select id="getAllPoint" resultType="pointDto">
-		select pointId, userId, activityType, pointScore, pointType, createdDate
-		from point
-		order by pointId
-	</select>
-	
-	<!-- 포인트 적립 데이터 생성 -->
-	<insert id="plusPoint" parameterType="pointDto">
+	<!-- 포인트 데이터 생성 -->
+	<insert id="createPointData" parameterType="pointDto">
 		insert into point(
-			 userId, activityType, pointScore, pointType
+			 userId, activityType, activityId, pointScore, pointType
 		) values (
-			#{userId}, #{activityType}, #{pointScore}, #{pointType}
+			#{userId}, #{activityType}, #{activityId}, #{pointScore}, #{pointType}
 		)
 	</insert>
 	
-	<!-- 포인트 차감 데이터 생성 -->
-	<insert id="minusPoint" parameterType="pointDto">
-		insert into point(
-			 userId, activityType, pointScore, pointType
-		) values (
-			#{userId}, #{activityType}, #{pointScore}, #{pointType}
-		)
-	</insert>
-	
-	<!-- 포인트 정보 조회 -->
-	<select id="pointInfo" parameterType="string" resultType="pointDto">
-		select pointId, userId, activityType, pointScore, pointType, createdDate
+	<!-- 전체 사용자 포인트 조회 -->
+	<select id="getAllUserPoint" resultType="pointDto">
+		select userId, sum(pointScore) 
 		from point
-		where pointId = #{pointid}
+		group by userId
+		order by userId
 	</select>
 	
-	<!-- 포인트 정보 수정 -->
-	<update id="updatePoint" parameterType="pointDto">
-		update point 
-		   set pointId = #{pointId},
-	   		   pointScore = #{pointScore}
-		 where pointId = #{pointId}
-	</update>
-	
-	<!-- 장소 삭제 -->
-	<delete id="deletePoint" parameterType="String">
-		delete 
+	<!-- 전체 사용자 포인트 내역 조회 -->
+	<select id="getAllPointRecords" resultType="pointDto">
+		select pointId, userId, activityType, activityId, pointScore,  pointType, createdDate
 		from point
-		where pointId = #{pointid}
-	</delete>
+		order by userId asc, createdDate desc
+	</select>
+	
+	<!-- 특정 사용자 포인트 조회 -->
+	<select id="getUserPoint" parameterType="String" resultType="pointDto">
+		select userId, sum(pointScore) 
+		from point
+		where userId = #{userid}
+	</select>
+	
+	<!-- 특정 사용자 포인트 내역 조회 -->
+	<select id="getUserPointRecords" parameterType="String" resultType="pointDto">
+		select pointId, userId, activityType, activityId, pointScore, pointType, createdDate
+		from point
+		where userId = #{userid}
+		order by createdDate desc
+	</select>
+	
+	<!-- 특정 활동과 관련된 사용자 포인트 내역 조회 -->
+	<select id="getUserPointRecordsOfSpecificActivity"  parameterType="String" resultType="pointDto">
+		select pointId, userId, activityType, activityId, pointScore, pointType, createdDate
+		from point
+		where userId = #{userid} and activityId = #{activityid}
+		order by createdDate desc
+	</select>
 	
 </mapper>

@@ -1,13 +1,13 @@
 package com.triple.exception;
 
+import static com.triple.constants.ErrorCode.INTERNAL_SERVER_ERROR;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.triple.dto.ErrorDto;
-
-import static constants.ErrorCode.INTERNAL_SERVER_ERROR;
 
 @RestControllerAdvice
 public class GlobolExceptionHandler {

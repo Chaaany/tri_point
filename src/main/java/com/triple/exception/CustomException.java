@@ -1,6 +1,6 @@
 package com.triple.exception;
 
-import constants.ErrorCode;
+import com.triple.constants.ErrorCode;
 
 public class CustomException extends RuntimeException{
 	private final ErrorCode errorCode;

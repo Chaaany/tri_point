@@ -6,20 +6,11 @@
 	
 	
 	<!-- 전체 사용자 조회 -->
-	<select id="getAllUser" resultType="userDto">
-		select userId, nickname, password, registrationDate, nicknameModifiedDate, isUnsigned, unsignedDate, isRecommendated, totalPoint  
+	<select id="getAllUserInfo" resultType="userDto">
+		select userId, nickname, password, registrationDate, nicknameModifiedDate, isUnsigned, unsignedDate, isRecommendated  
 		from user
 		order by registrationDate
 	</select>
-	
-	<!-- 회원 등록 -->
-	<insert id="registerUser" parameterType="userDto">
-		insert into user(
-			userId, nickname, password
-		) values (
-			#{userId}, #{nickname}, #{password}
-		)
-	</insert>
 
 	<!-- 사용자 상세 조회 -->
 <!-- 	<select id="userInfo" parameterType="string" resultType="userDto">
@@ -29,25 +20,11 @@
 	</select> -->
 	
 	<!-- 사용자 조회 -->
-	<select id="userInfo" parameterType="string" resultType="userDto">
-		select userId, nickname, password, registrationDate, nicknameModifiedDate, isUnsigned, unsignedDate, isRecommendated, totalPoint 
+	<select id="getUserInfo" parameterType="string" resultType="userDto">
+		select userId, nickname, password, registrationDate, nicknameModifiedDate, isUnsigned, unsignedDate, isRecommendated 
 		from user 
 		where userId = #{userid}
 	</select>
 	
-	<!-- 사용자 정보 수정 -->
-	<update id="updateUser" parameterType="userDto">
-		update user 
-		   set nickname = #{nickname}, 
-		   	   totalPoint = #{totalPoint}
-		 where userId = #{userId}
-	</update>
-	
-	<!-- 사용자 삭제 -->
-	<delete id="deleteUser" parameterType="String">
-		delete 
-		from user
-		where userId = #{userid}
-	</delete>
 	
 </mapper>

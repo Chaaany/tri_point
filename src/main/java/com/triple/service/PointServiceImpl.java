@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import com.triple.constants.ActivityType;
+import com.triple.constants.PointScore;
+import com.triple.constants.PointType;
 import com.triple.controller.MainController;
 import com.triple.dto.AttachedPhotoDto;
 import com.triple.dto.PlaceDto;
@@ -19,10 +22,6 @@ import com.triple.dto.ReviewEventRequestDto;
 import com.triple.dto.UserDto;
 
 import com.triple.mapper.PointMapper;
-
-import constants.ActivityType;
-import constants.PointScore;
-import constants.PointType;
 
 @Service
 public class PointServiceImpl implements PointService {
