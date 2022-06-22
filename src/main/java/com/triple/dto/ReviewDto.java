@@ -16,12 +16,12 @@ public class ReviewDto {
 	@ApiModelProperty(value = "리뷰 삭제 여부")
 	private int isDeleted;
 	@ApiModelProperty(value = "리뷰 작성 일자")
-	private String uploadDate;
+	private String uploadedDate;
 	@ApiModelProperty(value = "리뷰 수정 일자")
 	private String modifiedDate;
 	@ApiModelProperty(value = "리뷰 삭제 일자")
 	private String deletedDate;
-	public ReviewDto(String reviewId, String placeId, String userId, String content, int isDeleted, String uploadDate,
+	public ReviewDto(String reviewId, String placeId, String userId, String content, int isDeleted, String uploadedDate,
 			String modifiedDate, String deletedDate) {
 		super();
 		this.reviewId = reviewId;
@@ -29,7 +29,7 @@ public class ReviewDto {
 		this.userId = userId;
 		this.content = content;
 		this.isDeleted = isDeleted;
-		this.uploadDate = uploadDate;
+		this.uploadedDate = uploadedDate;
 		this.modifiedDate = modifiedDate;
 		this.deletedDate = deletedDate;
 	}
@@ -63,11 +63,11 @@ public class ReviewDto {
 	public void setIsDeleted(int isDeleted) {
 		this.isDeleted = isDeleted;
 	}
-	public String getUploadDate() {
-		return uploadDate;
+	public String getUploadedDate() {
+		return uploadedDate;
 	}
-	public void setUploadDate(String uploadDate) {
-		this.uploadDate = uploadDate;
+	public void setUploadedDate(String uploadedDate) {
+		this.uploadedDate = uploadedDate;
 	}
 	public String getModifiedDate() {
 		return modifiedDate;
@@ -84,7 +84,7 @@ public class ReviewDto {
 	@Override
 	public String toString() {
 		return "ReviewDto [reviewId=" + reviewId + ", placeId=" + placeId + ", userId=" + userId + ", content="
-				+ content + ", isDeleted=" + isDeleted + ", uploadDate=" + uploadDate + ", modifiedDate=" + modifiedDate
+				+ content + ", isDeleted=" + isDeleted + ", uploadedDate=" + uploadedDate + ", modifiedDate=" + modifiedDate
 				+ ", deletedDate=" + deletedDate + "]";
 	}
 

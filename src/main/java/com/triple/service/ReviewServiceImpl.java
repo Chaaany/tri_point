@@ -40,12 +40,11 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public int getPlaceReviewCount(String placeid) {
+	public ReviewDto getPlaceFirstReview(String placeid) throws Exception {
 		try {
-			return reviewMapper.getPlaceReviewCount(placeid);
+			return reviewMapper.getPlaceFirstReview(placeid);
 		} catch (Exception e) {
-			logger.debug("get place review count error");
-			return -1;
+			throw new Exception("get place First Review error");
 		}
 	}
 }

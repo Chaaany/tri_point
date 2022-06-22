@@ -7,13 +7,13 @@ import com.triple.dto.PointDto;
 
 public interface PointService {
 	
-	public List<PointDto> getAllUserPoint();
+	public List<PointDto> getAllUserPoint() throws Exception;
 
-	public List<PointDto> getAllPointRecords();
+	public List<PointDto> getAllPointRecords() throws Exception;
 	
-	public PointDto getUserPoint(String userid);
+	public PointDto getUserPoint(String userid) throws Exception;
 
-	public List<PointDto> getUserPointRecords(String userid);
+	public List<PointDto> getUserPointRecords(String userid) throws Exception;
 	
 	public boolean uploadReview(ConcurrentHashMap<String, Object> event);
 

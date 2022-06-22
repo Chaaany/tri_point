@@ -1,11 +1,11 @@
 package com.triple.type;
 
-public enum PointScore {
-	BASIC(1), BONUS(1);
-
+public enum AttachedActivityType {
+	REVIEW(1);
+	
 	private final int value;
 	
-	PointScore(int value) {
+	AttachedActivityType(int value) {
 		this.value = value;
 	} 
 	

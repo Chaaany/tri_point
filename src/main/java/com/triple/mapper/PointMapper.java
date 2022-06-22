@@ -17,5 +17,5 @@ public interface PointMapper {
 	
 	public List<PointDto> getUserPointRecords(String userid) throws SQLException;
 
-	public List<PointDto> getUserPointRecordsOfSpecificActivity(String userId, String activityId);
+	public List<PointDto> getUserPointRecordsOfSpecificActivity(String userid, String activityid);
 }

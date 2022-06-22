@@ -38,6 +38,10 @@ public class PointDto {
 		this.pointScore = pointScore;
 		this.pointType = pointType;
 	}
+	public PointDto(String userId, int pointScore) {
+		this.userId = userId;
+		this.pointScore = pointScore;
+	}
 
 	public int getPointId() {
 		return pointId;

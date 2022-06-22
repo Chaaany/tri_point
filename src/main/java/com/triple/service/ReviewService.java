@@ -10,6 +10,6 @@ public interface ReviewService {
 
 	public ReviewDto getReviewInfo(String reviewid);
 
-	public int getPlaceReviewCount(String placeid);
+	public ReviewDto getPlaceFirstReview(String placeId) throws Exception;
 
 }

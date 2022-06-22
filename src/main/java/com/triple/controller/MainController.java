@@ -34,6 +34,35 @@ public class MainController {
 
 	@Autowired
 	private PointService pointService;
+	
+	// Get/ allpoint로 요청이 들어왔다는 가정
+	@ApiOperation(value = "모든 사용자 총 포인트 조회", notes = "모든 user의 총 point 점수를 반환한다. 로직 처리 후 처리 결과에 따라 HttpStatus.OK(200) 및 사용자 총 포인트 점수 또는 HttpStatus.BAD_REQUEST(400)을 반환한다 ")
+	@GetMapping("alluserpoint")
+	public ResponseEntity<?> getAllUserPoint() {
+		logger.debug("get all user point userid request ");
+		
+		try {
+			List<PointDto> allUserPoint = pointService.getAllUserPoint();
+			return new ResponseEntity<List<PointDto>>(allUserPoint, HttpStatus.OK);
+		} catch (Exception e) {
+			logger.debug(e.getMessage());
+			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	// Get/ allpointrecord로 요청이 들어왔다는 가정
+	@ApiOperation(value = "모든 포인트 내역 조회", notes = "모든 point 내역 반환한다. 로직 처리 후 처리 결과에 따라 HttpStatus.OK(200) 및 사용자 총 포인트 점수 또는 HttpStatus.BAD_REQUEST(400)을 반환한다 ")
+	@GetMapping("alluserpointrecord")
+	public ResponseEntity<?> getAllUserPointRecords() {
+		try {
+			List<PointDto> allUserPointRecords = pointService.getAllPointRecords();
+			return new ResponseEntity<List<PointDto>>(allUserPointRecords, HttpStatus.OK);
+		} catch (Exception e) {
+			logger.debug(e.getMessage());
+			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
+		}
+	}
 
 	@ApiOperation(value = "event 발생", notes = "event 발생 시 event type 및 action에 따라 로직 처리 후 처리 결과에 따라 HttpStatus.OK(200) 또는 HttpStatus.BAD_REQUEST(400)을 반환한다'", response = String.class)
 	@PostMapping("events")
@@ -67,43 +96,26 @@ public class MainController {
 	@ApiOperation(value = "사용자 총 포인트 조회", notes = "userId에 해당하는 총 point 점수를 반환한다. 로직 처리 후 처리 결과에 따라 HttpStatus.OK(200) 및 사용자 총 포인트 점수 또는 HttpStatus.BAD_REQUEST(400)을 반환한다 ", response = String.class)
 	@GetMapping("point/{userid}")
 	public ResponseEntity<String> getUserPoint(@PathVariable String userid) {
-		logger.debug("get user point userid : " + userid);
-		
-		int userTotalPoint = pointService.getUserPoint(userid).getPointScore();
-		
-		return userTotalPoint >= 0 ? new ResponseEntity<String>(Integer.toString(userTotalPoint), HttpStatus.OK): new ResponseEntity<String>(FAIL, HttpStatus.OK);
+		try {
+			int userTotalPoint = pointService.getUserPoint(userid).getPointScore();
+			return new ResponseEntity<String>(Integer.toString(userTotalPoint), HttpStatus.OK);
+		} catch (Exception e) {
+			logger.debug(userid + e.getMessage());
+			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	// Get/ pointrecord/{userid}로 요청이 들어왔다는 가정
 	@ApiOperation(value = "사용자 총 포인트 내역 조회", notes = "userId에 해당하는 총 point 내역 반환한다. 로직 처리 후 처리 결과에 따라 HttpStatus.OK(200) 및 사용자 총 포인트 점수 또는 HttpStatus.BAD_REQUEST(400)을 반환한다 ")
 	@GetMapping("pointrecord/{userid}")
 	public ResponseEntity<?> getUserPointRecords(@PathVariable String userid) {
-		logger.debug("get user point userid : " + userid);
-		
-		List<PointDto> userPointRecords = pointService.getUserPointRecords(userid);
-		
-		return userPointRecords == null ? new ResponseEntity<List<PointDto>>(userPointRecords, HttpStatus.OK): new ResponseEntity<String>(FAIL, HttpStatus.OK);
+		try {
+			List<PointDto> userPointRecords = pointService.getUserPointRecords(userid);
+			return new ResponseEntity<List<PointDto>>(userPointRecords, HttpStatus.OK);
+		} catch (Exception e) {
+			logger.debug(userid + e.getMessage());
+			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
+		}
 	}
 	
-	// Get/ allpoint로 요청이 들어왔다는 가정
-	@ApiOperation(value = "모든 사용자 총 포인트 조회", notes = "모든 user의 총 point 점수를 반환한다. 로직 처리 후 처리 결과에 따라 HttpStatus.OK(200) 및 사용자 총 포인트 점수 또는 HttpStatus.BAD_REQUEST(400)을 반환한다 ")
-	@GetMapping("allpoint")
-	public ResponseEntity<String> getAllUserPoint(@PathVariable String userid) {
-		logger.debug("get user point userid : " + userid);
-		
-		int userTotalPoint = pointService.getUserPoint(userid).getPointScore();
-		
-		return userTotalPoint >= 0 ? new ResponseEntity<String>(Integer.toString(userTotalPoint), HttpStatus.OK): new ResponseEntity<String>(FAIL, HttpStatus.OK);
-	}
-	
-	// Get/ allpointrecord로 요청이 들어왔다는 가정
-	@ApiOperation(value = "모든 포인트 내역 조회", notes = "모든 point 내역 반환한다. 로직 처리 후 처리 결과에 따라 HttpStatus.OK(200) 및 사용자 총 포인트 점수 또는 HttpStatus.BAD_REQUEST(400)을 반환한다 ")
-	@GetMapping("allpointrecord")
-	public ResponseEntity<?> getAllUserPointRecords(@PathVariable String userid) {
-		logger.debug("get user point userid : " + userid);
-		
-		List<PointDto> userPointRecords = pointService.getAllPointRecords();
-		
-		return userPointRecords == null ? new ResponseEntity<List<PointDto>>(userPointRecords, HttpStatus.OK): new ResponseEntity<String>(FAIL, HttpStatus.OK);
-	}
 }

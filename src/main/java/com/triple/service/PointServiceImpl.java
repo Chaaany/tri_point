@@ -44,32 +44,31 @@ public class PointServiceImpl implements PointService {
 	private PointMapper pointMapper;
 
 	@Override
-	public List<PointDto> getAllUserPoint() {
+	public List<PointDto> getAllUserPoint() throws Exception {
 		try {
 			return pointMapper.getAllUserPoint();
 		} catch (Exception e) {
-			logger.debug("get all user point error");
-			return null;
+			throw new Exception("get all user point");
 		}
 	}
 
 	@Override
-	public List<PointDto> getAllPointRecords() {
+	public List<PointDto> getAllPointRecords() throws Exception {
 		try {
 			return pointMapper.getAllPointRecords();
 		} catch (Exception e) {
-			logger.debug("get all user point records error");
-			return null;
+			throw new Exception("get all user point records error");
 		}
 	}
 
 	@Override
-	public PointDto getUserPoint(String userid) {
+	public PointDto getUserPoint(String userid) throws Exception {
+		
 		try {
 			return pointMapper.getUserPoint(userid);
 		} catch (Exception e) {
-			logger.debug("get user point error");
-			return null;
+			logger.debug(" get all user point error");
+			throw new Exception("get user point error");
 		}
 	}
 
@@ -78,7 +77,7 @@ public class PointServiceImpl implements PointService {
 		try {
 			return pointMapper.getUserPointRecords(pointid);
 		} catch (Exception e) {
-			logger.debug("get user point records error");
+			logger.debug(" get user point records error");
 			return null;
 		}
 	}
@@ -115,9 +114,9 @@ public class PointServiceImpl implements PointService {
 			reviewdto = reviewService.getReviewInfo(reviewId);
 			if (reviewdto == null || reviewdto.getIsDeleted()) {
 				throw new Exception(reviewId + " not existed");
-			} else if (reviewdto.getPlaceId() != placeId) {
+			} else if (!reviewdto.getPlaceId().equals(placeId)) {
 				throw new Exception("placeId : " + placeId + " of review not matched");
-			} else if (reviewdto.getUserId() != userId) {
+			} else if (!reviewdto.getUserId().equals(userId)) {
 				throw new Exception("userId : " + userId + " of review not matched");
 			}
 
@@ -127,14 +126,30 @@ public class PointServiceImpl implements PointService {
 					attachedPhotodto = attachedPhotoService.getPhotoInfo(photoId);
 					if (attachedPhotodto == null || attachedPhotodto.getIsDeleted()) {
 						throw new Exception(photoId + "not existed");
-					} else if (attachedPhotodto.getUploadUserId() != userId) {
+					} else if (!attachedPhotodto.getUploadUserId().equals(userId)) {
 						throw new Exception("userId : " + userId + " of attachedPhoto not matched");
-					} else if (attachedPhotodto.getAttachedActivityId() != activityId) {
+					} else if (!attachedPhotodto.getAttachedActivityId().equals(activityId)) {
 						throw new Exception("activityId : " + activityId + " of attachedPhoto not matched");
 					}
 				}
 			}
+			
+			// 해당 장소 리뷰 작성 관련 과거 포인트 적립 내역 존재 여부 파악
+			// userid, activityId로 point 내역 조회 -> 오름차순 조회 필요
+			List<PointDto> pointList = pointMapper.getUserPointRecordsOfSpecificActivity(userId, activityId);
 
+			// 리뷰 관련 과거 포인트 적립 내역 정리
+			int currentPointList[] = new int[3]; // 1 ~ 6 +/- 대응됨
+
+			for (PointDto pointdto : pointList) {
+				currentPointList[pointdto.getActivityType() % 3] += pointdto.getPointScore();
+			}
+			
+			for (int i = 0; i < currentPointList.length; i++) {
+				if(currentPointList[i] != 0) {
+					throw new Exception("already point record existed");
+				}
+			}
 		} catch (Exception e) {
 			logger.debug(e.getMessage() + " error");
 			return false;
@@ -142,7 +157,7 @@ public class PointServiceImpl implements PointService {
 
 		try {
 			// 해당 장소에 리뷰 첫 리뷰 일 경우 갱신 보너스 점수 제공(+1)
-			boolean isFirstReview = reviewService.getPlaceReviewCount(placeId) == 0 ? true : false;
+			boolean isFirstReview = reviewService.getPlaceFirstReview(placeId).getReviewId().equals(reviewId) ? true : false;
 			if (isFirstReview) {
 				// 해당 장소 첫 리뷰 시
 				PointDto pointdto = new PointDto(userId, ActivityType.ADD_POINT_REVIEW_FIRST.getValue(), activityId,
@@ -167,7 +182,7 @@ public class PointServiceImpl implements PointService {
 			}
 		} catch (Exception e) {
 			// 하나라도 제대로 적립 안되면 오류 발생 및 rollback
-			logger.debug("add point error");
+			logger.debug(e.getMessage());
 			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			return false;
 		}
@@ -205,7 +220,7 @@ public class PointServiceImpl implements PointService {
 			reviewdto = reviewService.getReviewInfo(reviewId);
 			if (reviewdto == null || reviewdto.getIsDeleted()) {
 				throw new Exception(reviewId + " not existed");
-			} else if (reviewdto.getPlaceId() != placeId) {
+			} else if (!reviewdto.getPlaceId().equals(placeId)) {
 				throw new Exception("placeId : " + placeId + " of review not matched");
 			} else if (reviewdto.getUserId() != userId) {
 				throw new Exception("userId : " + userId + " of review not matched");
@@ -217,14 +232,13 @@ public class PointServiceImpl implements PointService {
 					attachedPhotodto = attachedPhotoService.getPhotoInfo(photoId);
 					if (attachedPhotodto == null || attachedPhotodto.getIsDeleted()) {
 						throw new Exception(photoId + "not existed");
-					} else if (attachedPhotodto.getUploadUserId() != userId) {
+					} else if (!attachedPhotodto.getUploadUserId().equals(userId)) {
 						throw new Exception("userId : " + userId + " of attachedPhoto not matched");
-					} else if (attachedPhotodto.getAttachedActivityId() != activityId) {
+					} else if (attachedPhotodto.getAttachedActivityId().equals(activityId)) {
 						throw new Exception("activityId : " + activityId + " of attachedPhoto not matched");
 					}
 				}
 			}
-
 		} catch (Exception e) {
 			logger.debug(e.getMessage() + " error");
 			return false;
@@ -321,8 +335,6 @@ public class PointServiceImpl implements PointService {
 			logger.debug(e.getMessage() + " error");
 			return false;
 		}
-		
-
 
 		
 		try {
