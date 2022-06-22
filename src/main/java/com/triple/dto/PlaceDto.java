@@ -17,7 +17,6 @@ public class PlaceDto {
 	private String deletedDate;
 
 	public PlaceDto(String placeId, String uploadUserId, String uploadedDate, int isDeleted, String deletedDate) {
-		super();
 		this.placeId = placeId;
 		this.uploadUserId = uploadUserId;
 		this.uploadedDate = uploadedDate;

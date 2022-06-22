@@ -25,7 +25,6 @@ public class UserDto {
 
 	public UserDto(String userId, String nickname, String password, String registrationDate,
 			String nicknameModifiedDate, int isUnsigned, String unsignedDate, int isRecommendated) {
-		super();
 		this.userId = userId;
 		this.nickname = nickname;
 		this.password = password;

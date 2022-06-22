@@ -15,13 +15,14 @@ import com.triple.dto.AttachedPhotoDto;
 import com.triple.dto.PlaceDto;
 import com.triple.dto.PointDto;
 import com.triple.dto.ReviewDto;
+import com.triple.dto.ReviewEventRequestDto;
 import com.triple.dto.UserDto;
 
 import com.triple.mapper.PointMapper;
 
-import com.triple.type.PointScore;
-import com.triple.type.ActivityType;
-import com.triple.type.PointType;
+import constants.ActivityType;
+import constants.PointScore;
+import constants.PointType;
 
 @Service
 public class PointServiceImpl implements PointService {
@@ -84,13 +85,13 @@ public class PointServiceImpl implements PointService {
 
 	@Override
 	@Transactional
-	public boolean uploadReview(ConcurrentHashMap<String, Object> event) {
-		String reviewId = (String) event.get("reviewId");
-		String activityId = (String) event.get("reviewId");
-		String content = (String) event.get("content");
-		List<String> attachedPhotoIds = (List<String>) event.get("attachedPhotoIds");
-		String userId = (String) event.get("userId");
-		String placeId = (String) event.get("placeId");
+	public boolean uploadReview(ReviewEventRequestDto eventRequestDto) {
+		String reviewId = eventRequestDto.getReviewId();
+		String activityId = eventRequestDto.getReviewId();
+		String content = eventRequestDto.getContent();
+		List<String> attachedPhotoIds = eventRequestDto.getAttachedPhotoIds();
+		String userId =  eventRequestDto.getUserId();
+		String placeId = eventRequestDto.getPlaceId();
 		PlaceDto placedto = null;
 		UserDto userdto = null;
 		ReviewDto reviewdto = null;
@@ -190,18 +191,18 @@ public class PointServiceImpl implements PointService {
 	}
 
 	@Override
-	public boolean modifyReview(ConcurrentHashMap<String, Object> event) {
-		String reviewId = (String) event.get("reviewId");
-		String activityId = (String) event.get("reviewId");
-		String content = (String) event.get("content");
-		List<String> attachedPhotoIds = (List<String>) event.get("attachedPhotoIds");
-		String userId = (String) event.get("userId");
-		String placeId = (String) event.get("placeId");
-
+	public boolean modifyReview(ReviewEventRequestDto eventRequestDto) {
+		String reviewId = eventRequestDto.getReviewId();
+		String activityId = eventRequestDto.getReviewId();
+		String content = eventRequestDto.getContent();
+		List<String> attachedPhotoIds = eventRequestDto.getAttachedPhotoIds();
+		String userId =  eventRequestDto.getUserId();
+		String placeId = eventRequestDto.getPlaceId();
 		PlaceDto placedto = null;
 		UserDto userdto = null;
 		ReviewDto reviewdto = null;
 		AttachedPhotoDto attachedPhotodto = null;
+		
 
 		try {
 			// 해당 장소id 존재 여부 확인
@@ -255,16 +256,16 @@ public class PointServiceImpl implements PointService {
 				currentPointList[pointdto.getActivityType() % 3] += pointdto.getPointScore();
 			}
 
-			// 수정했을 때 사진 추가
+			// 수정했을 때 내용 추가
 			boolean isAddReviewContentPointNeed = currentPointList[ActivityType.ADD_POINT_REVIEW_CONTENT.getValue()
-					% 3] == 0 && attachedPhotoIds.size() > 0;
-			// 수정했을 때 사진 모두 삭제
+					% 3] == 0 && content.length() > 0;
+			// 수정했을 때 내용 삭제
 			boolean isMinusReviewContentPointNeed = currentPointList[ActivityType.MINUS_POINT_REVIEW_CONTENT.getValue()
 					% 3] != 0 && content.length() == 0;
-			// 수정했을 때 내용 추가
+			// 수정했을 때 사진 추가
 			boolean isAddReviewPhotoPointNeed = currentPointList[ActivityType.ADD_POINT_REVIEW_PHOTO.getValue()
 					% 3] == 0 && attachedPhotoIds.size() > 0;
-			// 수정했을 때 내용 모두 삭제
+			// 수정했을 때 사진 모두 삭제
 			boolean isMinusReviewPhotoPointNeed = currentPointList[ActivityType.MINUS_POINT_REVIEW_PHOTO.getValue()
 					% 3] != 0 && attachedPhotoIds.size() == 0;
 			
@@ -274,7 +275,7 @@ public class PointServiceImpl implements PointService {
 				pointMapper.createPointData(pointdto);
 			} else if (isMinusReviewContentPointNeed) { // 수정 후 글자 수 : 0
 				PointDto pointdto = new PointDto(userId, ActivityType.MINUS_POINT_REVIEW_CONTENT.getValue(), activityId,
-						PointScore.BASIC.getValue(), PointType.REVIEW_BASIC.getValue());
+						PointScore.BASIC.getValue()*-1, PointType.REVIEW_BASIC.getValue());
 				pointMapper.createPointData(pointdto);
 			}else if (isAddReviewPhotoPointNeed) { 
 				PointDto pointdto = new PointDto(userId, ActivityType.ADD_POINT_REVIEW_PHOTO.getValue(), activityId,
@@ -295,14 +296,13 @@ public class PointServiceImpl implements PointService {
 	}
 
 	@Override
-	public boolean deleteReview(ConcurrentHashMap<String, Object> event) {
-		String reviewId = (String) event.get("reviewId");
-		String activityId = (String) event.get("reviewId");
-		String content = (String) event.get("content");
-		List<String> attachedPhotoIds = (List<String>) event.get("attachedPhotoIds");
-		String userId = (String) event.get("userId");
-		String placeId = (String) event.get("placeId");
-
+	public boolean deleteReview(ReviewEventRequestDto eventRequestDto) {
+		String reviewId = eventRequestDto.getReviewId();
+		String activityId = eventRequestDto.getReviewId();
+		String content = eventRequestDto.getContent();
+		List<String> attachedPhotoIds = eventRequestDto.getAttachedPhotoIds();
+		String userId =  eventRequestDto.getUserId();
+		String placeId = eventRequestDto.getPlaceId();
 		PlaceDto placedto = null;
 		UserDto userdto = null;
 		ReviewDto reviewdto = null;
@@ -348,17 +348,17 @@ public class PointServiceImpl implements PointService {
 			}
 			
 			// 첫 리뷰 보너스 포인트 차감 필요 여부
-			boolean isFirstReviewPointExisted = currentPointList[ActivityType.ADD_POINT_REVIEW_FIRST.getValue() % 3] == 0;
+			boolean isFirstReviewPointExisted = currentPointList[ActivityType.ADD_POINT_REVIEW_FIRST.getValue() % 3] > 0 && reviewService.getPlaceFirstReview(placeId).getUserId().equals(userId);
 			
 			// 리뷰 내용 작성 포인트 차감 필요 여부
-			boolean isReviewContentPointExisted = currentPointList[ActivityType.ADD_POINT_REVIEW_CONTENT.getValue() % 3] == 0;
+			boolean isReviewContentPointExisted = currentPointList[ActivityType.ADD_POINT_REVIEW_CONTENT.getValue() % 3] > 0;
 			
 			// 리뷰 사진 첨부 포인트 차감 필요 여부
-			boolean isReviewPhotoPointExisted = currentPointList[ActivityType.ADD_POINT_REVIEW_CONTENT.getValue() % 3] == 0;
+			boolean isReviewPhotoPointExisted = currentPointList[ActivityType.ADD_POINT_REVIEW_CONTENT.getValue() % 3] > 0;
 			
 			if (isFirstReviewPointExisted) { // 삭제 후 첫 리뷰 작성으로 받은 포인트 차감
-				PointDto pointdto = new PointDto(userId, ActivityType.ADD_POINT_REVIEW_FIRST.getValue(), activityId,
-						PointScore.BONUS.getValue(), PointType.REVIEW_BONUS.getValue());
+				PointDto pointdto = new PointDto(userId, ActivityType.MINUS_POINT_REVIEW_FIRST.getValue(), activityId,
+						PointScore.BONUS.getValue() * -1, PointType.REVIEW_BONUS.getValue());
 				pointMapper.createPointData(pointdto);
 			} else if (isReviewContentPointExisted) { // 삭제 후 내용 작성으로 받은 포인트 차감
 				PointDto pointdto = new PointDto(userId, ActivityType.MINUS_POINT_REVIEW_CONTENT.getValue(), activityId,

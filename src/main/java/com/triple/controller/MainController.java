@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.triple.dto.PointDto;
+import com.triple.dto.ReviewEventRequestDto;
 import com.triple.service.PointService;
 
 import io.swagger.annotations.Api;
@@ -48,7 +49,6 @@ public class MainController {
 			logger.debug(e.getMessage());
 			return new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
 		}
-		
 	}
 	
 	// Get/ allpointrecord로 요청이 들어왔다는 가정
@@ -66,20 +66,20 @@ public class MainController {
 
 	@ApiOperation(value = "event 발생", notes = "event 발생 시 event type 및 action에 따라 로직 처리 후 처리 결과에 따라 HttpStatus.OK(200) 또는 HttpStatus.BAD_REQUEST(400)을 반환한다'", response = String.class)
 	@PostMapping("events")
-	public ResponseEntity<String> requestEvent(@RequestBody ConcurrentHashMap<String, Object> event) {
-		String type = (String) event.get("type");
-		String action = (String) event.get("action");
+	public ResponseEntity<String> requestEvent(@RequestBody ReviewEventRequestDto eventRequestDto) {
+		String type = eventRequestDto.getType();
+		String action = eventRequestDto.getAction();
 
 		if (type.equals("REVIEW")) {
 			logger.debug(type + "-" + action + " event");
 			if (action.equals("ADD")) {
-				return pointService.uploadReview(event) ? new ResponseEntity<String>(SUCCESS, HttpStatus.OK)
+				return pointService.uploadReview(eventRequestDto) ? new ResponseEntity<String>(SUCCESS, HttpStatus.OK)
 						: new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
 			} else if (action.equals("MOD")) {
-				return pointService.modifyReview(event) ? new ResponseEntity<String>(SUCCESS, HttpStatus.OK)
+				return pointService.modifyReview(eventRequestDto) ? new ResponseEntity<String>(SUCCESS, HttpStatus.OK)
 						: new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
 			} else if (action.equals("DELETE")) {
-				return pointService.deleteReview(event) ? new ResponseEntity<String>(SUCCESS, HttpStatus.OK)
+				return pointService.deleteReview(eventRequestDto) ? new ResponseEntity<String>(SUCCESS, HttpStatus.OK)
 						: new ResponseEntity<String>(FAIL, HttpStatus.BAD_REQUEST);
 			} else {
 				// 정의되지 않은 요청

@@ -23,7 +23,6 @@ public class ReviewDto {
 	private String deletedDate;
 	public ReviewDto(String reviewId, String placeId, String userId, String content, int isDeleted, String uploadedDate,
 			String modifiedDate, String deletedDate) {
-		super();
 		this.reviewId = reviewId;
 		this.placeId = placeId;
 		this.userId = userId;

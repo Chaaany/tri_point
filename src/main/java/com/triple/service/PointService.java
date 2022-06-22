@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.triple.dto.PointDto;
+import com.triple.dto.ReviewEventRequestDto;
 
 public interface PointService {
 	
@@ -15,10 +16,10 @@ public interface PointService {
 
 	public List<PointDto> getUserPointRecords(String userid) throws Exception;
 	
-	public boolean uploadReview(ConcurrentHashMap<String, Object> event);
+	public boolean uploadReview(ReviewEventRequestDto eventRequestDto);
 
-	public boolean modifyReview(ConcurrentHashMap<String, Object> event);
+	public boolean modifyReview(ReviewEventRequestDto eventRequestDto);
 
-	public boolean deleteReview(ConcurrentHashMap<String, Object> event);
+	public boolean deleteReview(ReviewEventRequestDto eventRequestDto);
 
 }
