@@ -13,4 +13,15 @@
 		where placeId = UNHEX(REPLACE(#{placeid} , '-', ''))
 	</select>
 	
+	<!-- 장소 데이터 생성 -->
+	<insert id="createPlaceData" parameterType="placeDto">
+		insert into place(
+			 placeId, 
+			 uploadUserId
+		) values (
+			UNHEX(REPLACE(#{placeId} , '-', '')),
+			UNHEX(REPLACE(#{uploadUserId} , '-', ''))
+		)
+	</insert>
+	
 </mapper>

@@ -44,7 +44,7 @@
 		select LOWER(CONCAT(LEFT(HEX(userId), 8), '-', MID(HEX(userId), 9, 4), '-', MID(HEX(userId), 13, 4), '-', MID(HEX(userId), 17, 4), '-', RIGHT(HEX(userId), 12))) AS userId, 
 		sum(pointScore) as pointScore
 		from point
-		where userId = UNHEX(REPLACE(#{userid} , '-', '')),
+		where userId = UNHEX(REPLACE(#{userid} , '-', ''))
 	</select>
 	
 	<!-- 특정 사용자 포인트 내역 조회 -->
@@ -55,7 +55,7 @@
 		LOWER(CONCAT(LEFT(HEX(activityId), 8), '-', MID(HEX(activityId), 9, 4), '-', MID(HEX(activityId), 13, 4), '-', MID(HEX(activityId), 17, 4), '-', RIGHT(HEX(activityId), 12))) AS activityId, 
 		pointScore, pointType, createdDate
 		from point
-		where userId = UNHEX(REPLACE(#{userid} , '-', '')),
+		where userId = UNHEX(REPLACE(#{userid} , '-', ''))
 		order by createdDate desc
 	</select>
 	
@@ -67,7 +67,7 @@
 		LOWER(CONCAT(LEFT(HEX(activityId), 8), '-', MID(HEX(activityId), 9, 4), '-', MID(HEX(activityId), 13, 4), '-', MID(HEX(activityId), 17, 4), '-', RIGHT(HEX(activityId), 12))) AS activityId,
 		pointScore, pointType, createdDate
 		from point
-		where userId = UNHEX(REPLACE(#{userid} , '-', '')),
+		where userId = UNHEX(REPLACE(#{userid} , '-', ''))
 		and activityId = UNHEX(REPLACE(#{activityid} , '-', ''))
 		order by createdDate desc
 	</select>

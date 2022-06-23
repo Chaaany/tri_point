@@ -25,10 +25,11 @@
 			<!-- 파일에 기록할 로그 포맷 -->
 		</encoder>
 	</appender>
-	<logger name="com.triple.controller" level="debug"/>
+	<logger name="com.triple" level="info"/>
+	<!--  <logger name="com.triple.controller" level="DEBUG"/>
 	<logger name="com.triple.mapper" level="INFO"/>
-	<logger name="com.triple.service" level="INFO"/>
-	<logger name="org.springframework" level="INFO"/>
+	<logger name="com.triple.service" level="INFO"/>  -->
+	 <logger name="org.springframework" level="INFO"/>
 	
 	<root level="debug">
 		<appender-ref ref="CONSOLE" />

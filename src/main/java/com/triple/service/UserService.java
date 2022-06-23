@@ -10,4 +10,6 @@ public interface UserService {
 
 	public UserDto getUserInfo(String userid);
 
+	public boolean createUserData(UserDto requestDto);
+
 }

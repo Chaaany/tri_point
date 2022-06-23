@@ -10,4 +10,6 @@ public interface AttachedPhotoService {
 
 	public List<AttachedPhotoDto> getSpecificAcitivityPhotoInfo(String activityId);
 
+	public boolean createPhotoData(AttachedPhotoDto requestDto);
+
 }

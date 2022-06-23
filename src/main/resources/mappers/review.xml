@@ -38,4 +38,19 @@
 		limit 1
 	</select>
 	
+	<!-- 리뷰 데이터 생성 -->
+	<insert id="createReviewData" parameterType="reviewDto">
+		insert into review(
+			 reviewId, 
+			 placeId, 
+			 userId,
+			 content
+		) values (
+			UNHEX(REPLACE(#{reviewId} , '-', '')),
+			UNHEX(REPLACE(#{placeId} , '-', '')),
+			UNHEX(REPLACE(#{userId} , '-', '')),
+			content
+		)
+	</insert>
+	
 </mapper>

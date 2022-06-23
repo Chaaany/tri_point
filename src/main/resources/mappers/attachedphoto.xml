@@ -38,4 +38,20 @@
 		order by uploadedDate desc
 	</select>
 	
+	<!-- 첨부 사진 데이터 생성 -->
+	<insert id="createPhotoData" parameterType="attachedPhotoDto">
+		insert into attachedphoto(
+			 attachedPhotoId, 
+			 attachedActivityType, 
+			 attachedActivityId, 
+			 uploadUserId
+		) values (
+			UNHEX(REPLACE(#{attachedPhotoId} , '-', '')),
+			#{attachedActivityType}, 
+			UNHEX(REPLACE(#{attachedActivityId} , '-', '')),
+			UNHEX(REPLACE(#{uploadUserId} , '-', ''))
+		)
+	</insert>
+	
+	
 </mapper>

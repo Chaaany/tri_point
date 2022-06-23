@@ -12,5 +12,7 @@ public interface AttachedPhotoMapper {
 	public AttachedPhotoDto getPhotoInfo(String photoid) throws SQLException;
 
 	public List<AttachedPhotoDto> getSpecificAcitivityPhotoInfo(String activityid) throws SQLException;
+
+	public int createPhotoData(AttachedPhotoDto requestDto) throws SQLException;
 	
 }

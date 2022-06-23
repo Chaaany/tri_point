@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.triple.controller.MainController;
 import com.triple.dto.PlaceDto;
@@ -24,6 +25,17 @@ public class PlaceServiceImpl implements PlaceService {
 		} catch (Exception e) {
 			logger.debug("place info error");
 			return null;
+		}
+	}
+
+	@Override
+	@Transactional
+	public boolean createPlaceData(PlaceDto requestDto) {
+		try {
+			return placeMapper.createPlaceData(requestDto) == 1;
+		} catch (Exception e) {
+			logger.debug("place data create error");
+			return false;
 		}
 	}
 }

@@ -1,7 +1,6 @@
 package com.triple.service;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 import com.triple.dto.PointDto;
 import com.triple.dto.ReviewEventRequestDto;

@@ -11,5 +11,7 @@ public interface ReviewMapper {
 	
 	public ReviewDto getReviewInfo(String reviewid) throws SQLException;
 	
-	public ReviewDto getPlaceFirstReview(String placeid);
+	public ReviewDto getPlaceFirstReview(String placeid) throws SQLException;
+
+	public int createReviewData(ReviewDto requestDto) throws SQLException;
 }

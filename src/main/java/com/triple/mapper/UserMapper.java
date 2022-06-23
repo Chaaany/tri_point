@@ -11,4 +11,6 @@ public interface UserMapper {
 	
 	public UserDto getUserInfo(String userid) throws SQLException;
 
+	public int createUserData(UserDto requestDto) throws SQLException;
+
 }

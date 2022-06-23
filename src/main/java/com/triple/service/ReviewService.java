@@ -12,4 +12,6 @@ public interface ReviewService {
 
 	public ReviewDto getPlaceFirstReview(String placeId) throws Exception;
 
+	public boolean createReviewData(ReviewDto requestDto);
+
 }

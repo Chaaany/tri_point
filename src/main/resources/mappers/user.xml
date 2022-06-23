@@ -20,4 +20,18 @@
 		where userId = UNHEX(REPLACE(#{userid} , '-', ''))
 	</select>
 	
+	<!-- 사용자 데이터 생성 -->
+	<insert id="createUserData" parameterType="userDto">
+		insert into user(
+			 userId, 
+			 nickname, 
+			 password,
+			 isRecommendated
+		) values (
+			UNHEX(REPLACE(#{userId} , '-', '')),
+			nickname,
+			password,
+			isRecommendated
+		)
+	</insert>
 </mapper>
