@@ -65,9 +65,10 @@ public class PointServiceImpl implements PointService {
 	public PointDto getUserPoint(String userid) throws Exception {
 		
 		try {
+			logger.debug("" + pointMapper.getUserPoint(userid).getUserId());
 			return pointMapper.getUserPoint(userid);
 		} catch (Exception e) {
-			logger.debug(" get all user point error");
+			logger.debug(" get user point error");
 			throw new Exception("get user point error");
 		}
 	}
@@ -100,20 +101,21 @@ public class PointServiceImpl implements PointService {
 		try {
 			// 해당 장소id 존재 여부 확인
 			placedto = placeService.getPlaceInfo(placeId);
-			if (placedto == null || placedto.getIsDeleted()) {
-				throw new Exception(placeId + " not existed");
+			if (placedto == null || placedto.getIsDeleted() == 1) {
+				logger.debug(placedto +", " + placedto.getIsDeleted());
+				throw new Exception("placeId : " + placeId + " not existed");
 			}
 
 			// 해당 유저id 존재 여부 확인
 			userdto = userService.getUserInfo(userId);
-			if (userdto == null || userdto.getIsUnsigned()) {
-				throw new Exception(userId + " not existed");
+			if (userdto == null || userdto.getIsUnsigned() == 1) {
+				throw new Exception("userId : " + userId + " not existed");
 			}
 
 			// 해당 리뷰id 존재 여부 확인
 			reviewdto = reviewService.getReviewInfo(reviewId);
-			if (reviewdto == null || reviewdto.getIsDeleted()) {
-				throw new Exception(reviewId + " not existed");
+			if (reviewdto == null || reviewdto.getIsDeleted() == 1) {
+				throw new Exception("reviewId : " + reviewId + " not existed");
 			} else if (!reviewdto.getPlaceId().equals(placeId)) {
 				throw new Exception("placeId : " + placeId + " of review not matched");
 			} else if (!reviewdto.getUserId().equals(userId)) {
@@ -124,8 +126,8 @@ public class PointServiceImpl implements PointService {
 			if (attachedPhotoIds.size() != 0) {
 				for (String photoId : attachedPhotoIds) {
 					attachedPhotodto = attachedPhotoService.getPhotoInfo(photoId);
-					if (attachedPhotodto == null || attachedPhotodto.getIsDeleted()) {
-						throw new Exception(photoId + "not existed");
+					if (attachedPhotodto == null || attachedPhotodto.getIsDeleted() == 1) {
+						throw new Exception("photoId : " + photoId + "not existed");
 					} else if (!attachedPhotodto.getUploadUserId().equals(userId)) {
 						throw new Exception("userId : " + userId + " of attachedPhoto not matched");
 					} else if (!attachedPhotodto.getAttachedActivityId().equals(activityId)) {
@@ -206,20 +208,20 @@ public class PointServiceImpl implements PointService {
 		try {
 			// 해당 장소id 존재 여부 확인
 			placedto = placeService.getPlaceInfo(placeId);
-			if (placedto == null || placedto.getIsDeleted()) {
-				throw new Exception(placeId + " not existed");
+			if (placedto == null || placedto.getIsDeleted() == 1 ) {
+				throw new Exception("placeId : " + placeId + " not existed");
 			}
 
 			// 해당 유저id 존재 여부 확인
 			userdto = userService.getUserInfo(userId);
-			if (userdto == null || userdto.getIsUnsigned()) {
-				throw new Exception(userId + " not existed");
+			if (userdto == null || userdto.getIsUnsigned() == 1) {
+				throw new Exception("userId : " +userId + " not existed");
 			}
 
 			// 해당 리뷰id 존재 여부 확인
 			reviewdto = reviewService.getReviewInfo(reviewId);
-			if (reviewdto == null || reviewdto.getIsDeleted()) {
-				throw new Exception(reviewId + " not existed");
+			if (reviewdto == null || reviewdto.getIsDeleted() == 1) {
+				throw new Exception("review : " + reviewId + " not existed");
 			} else if (!reviewdto.getPlaceId().equals(placeId)) {
 				throw new Exception("placeId : " + placeId + " of review not matched");
 			} else if (reviewdto.getUserId() != userId) {
@@ -230,8 +232,8 @@ public class PointServiceImpl implements PointService {
 			if (attachedPhotoIds.size() != 0) {
 				for (String photoId : attachedPhotoIds) {
 					attachedPhotodto = attachedPhotoService.getPhotoInfo(photoId);
-					if (attachedPhotodto == null || attachedPhotodto.getIsDeleted()) {
-						throw new Exception(photoId + "not existed");
+					if (attachedPhotodto == null || attachedPhotodto.getIsDeleted() == 1) {
+						throw new Exception("photoId : " + photoId + "not existed");
 					} else if (!attachedPhotodto.getUploadUserId().equals(userId)) {
 						throw new Exception("userId : " + userId + " of attachedPhoto not matched");
 					} else if (attachedPhotodto.getAttachedActivityId().equals(activityId)) {
@@ -310,20 +312,20 @@ public class PointServiceImpl implements PointService {
 		try {
 			// 해당 장소id 존재 여부 확인
 			placedto = placeService.getPlaceInfo(placeId);
-			if (placedto == null || placedto.getIsDeleted()) {
-				throw new Exception(placeId + " not existed");
+			if (placedto == null || placedto.getIsDeleted() == 1) {
+				throw new Exception("placeId : " + placeId + " not existed");
 			}
 
 			// 해당 유저id 존재 여부 확인
 			userdto = userService.getUserInfo(userId);
-			if (userdto == null || userdto.getIsUnsigned()) {
-				throw new Exception(userId + " not existed");
+			if (userdto == null || userdto.getIsUnsigned() == 1) {
+				throw new Exception("userId : " + userId + " not existed");
 			}
 
-			// 해당 리뷰id 존재 여부 확인
+			// 해당 리뷰id 존재 여부 확인 
 			reviewdto = reviewService.getReviewInfo(reviewId);
-			if (reviewdto != null || !reviewdto.getIsDeleted()) {
-				throw new Exception(reviewId + " not deleted");
+			if (reviewdto == null || reviewdto.getIsDeleted() == 0) {
+				throw new Exception("reviewId : " + reviewId + " not deleted");
 			} 
 
 			// 첨부 사진 존재 여부 확인 (event 발생으로 전달 받은 id의 DB상 존재 여부 확인)

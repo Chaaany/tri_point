@@ -4,27 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.triple.mapper.UserMapper">
 	
-	
 	<!-- 전체 사용자 조회 -->
 	<select id="getAllUserInfo" resultType="userDto">
-		select userId, nickname, password, registrationDate, nicknameModifiedDate, isUnsigned, unsignedDate, isRecommendated  
+		select LOWER(CONCAT(LEFT(HEX(userId), 8), '-', MID(HEX(userId), 9, 4), '-', MID(HEX(userId), 13, 4), '-', MID(HEX(userId), 17, 4), '-', RIGHT(HEX(userId), 12))) AS userId, 
+		nickname, password, registrationDate, nicknameModifiedDate, isUnsigned, unsignedDate, isRecommendated  
 		from user
 		order by registrationDate
 	</select>
-
-	<!-- 사용자 상세 조회 -->
-<!-- 	<select id="userInfo" parameterType="string" resultType="userDto">
-		select *
-		from user 
-		where userId = UNHEX(REPLACE(#{articleno}, '-', ''))
-	</select> -->
 	
 	<!-- 사용자 조회 -->
 	<select id="getUserInfo" parameterType="string" resultType="userDto">
-		select userId, nickname, password, registrationDate, nicknameModifiedDate, isUnsigned, unsignedDate, isRecommendated 
+		select LOWER(CONCAT(LEFT(HEX(userId), 8), '-', MID(HEX(userId), 9, 4), '-', MID(HEX(userId), 13, 4), '-', MID(HEX(userId), 17, 4), '-', RIGHT(HEX(userId), 12))) AS userId, 
+		nickname, password, registrationDate, nicknameModifiedDate, isUnsigned, unsignedDate, isRecommendated 
 		from user 
-		where userId = #{userid}
+		where userId = UNHEX(REPLACE(#{userid} , '-', ''))
 	</select>
-	
 	
 </mapper>

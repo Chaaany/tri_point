@@ -4,27 +4,38 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.triple.mapper.AttachedPhotoMapper">
 	
-	
 	<!-- 전체 사진 정보 조회 -->
 	<select id="getAllPhotoInfo" resultType="attachedPhotoDto">
-		select attachedPhotoId, attachedActivityType, attachedActivityId, uploadUserId, uploadedDate, isDeleted, deletedDate  
+		select LOWER(CONCAT(LEFT(HEX(attachedPhotoId), 8), '-', MID(HEX(attachedPhotoId), 9, 4), '-', MID(HEX(attachedPhotoId), 13, 4), '-', MID(HEX(attachedPhotoId), 17, 4), '-', RIGHT(HEX(attachedPhotoId), 12))) AS attachedPhotoId,
+			attachedActivityType, 
+			LOWER(CONCAT(LEFT(HEX(attachedActivityId), 8), '-', MID(HEX(attachedActivityId), 9, 4), '-', MID(HEX(attachedActivityId), 13, 4), '-', MID(HEX(attachedActivityId), 17, 4), '-', RIGHT(HEX(attachedActivityId), 12))) AS attachedActivityId,
+			LOWER(CONCAT(LEFT(HEX(uploadUserId), 8), '-', MID(HEX(uploadUserId), 9, 4), '-', MID(HEX(uploadUserId), 13, 4), '-', MID(HEX(uploadUserId), 17, 4), '-', RIGHT(HEX(uploadUserId), 12))) AS uploadUserId,
+		 	uploadedDate, isDeleted, deletedDate  
 		from attachedphoto
 		order by uploadedDate desc
 	</select>
-
 	
 	<!-- 특정 사진 정보 조회 -->
 	<select id="getPhotoInfo" parameterType="String" resultType="attachedPhotoDto">
-		select attachedPhotoId, attachedActivityType, attachedActivityId, uploadUserId, uploadedDate, isDeleted, deletedDate  
+		select LOWER(CONCAT(LEFT(HEX(attachedPhotoId), 8), '-', MID(HEX(attachedPhotoId), 9, 4), '-', MID(HEX(attachedPhotoId), 13, 4), '-', MID(HEX(attachedPhotoId), 17, 4), '-', RIGHT(HEX(attachedPhotoId), 12))) AS attachedPhotoId,
+			attachedActivityType, 
+			LOWER(CONCAT(LEFT(HEX(attachedActivityId), 8), '-', MID(HEX(attachedActivityId), 9, 4), '-', MID(HEX(attachedActivityId), 13, 4), '-', MID(HEX(attachedActivityId), 17, 4), '-', RIGHT(HEX(attachedActivityId), 12))) AS attachedActivityId,
+			LOWER(CONCAT(LEFT(HEX(uploadUserId), 8), '-', MID(HEX(uploadUserId), 9, 4), '-', MID(HEX(uploadUserId), 13, 4), '-', MID(HEX(uploadUserId), 17, 4), '-', RIGHT(HEX(uploadUserId), 12))) AS uploadUserId,
+			uploadedDate, isDeleted, deletedDate  
 		from attachedphoto
-		where attachedPhotoId = #{photoid}
+		where attachedPhotoId = UNHEX(REPLACE(#{photoid} , '-', ''))
 	</select>
 	
 	<!-- 특정 활동 관련 사진 정보 조회 -->
 	<select id="getSpecificAcitivityPhotoInfo" resultType="attachedPhotoDto">
-		select attachedPhotoId, attachedActivityType, attachedActivityId, uploadUserId, uploadedDate, isDeleted, deletedDate  
+		select LOWER(CONCAT(LEFT(HEX(attachedPhotoId), 8), '-', MID(HEX(attachedPhotoId), 9, 4), '-', MID(HEX(attachedPhotoId), 13, 4), '-', MID(HEX(attachedPhotoId), 17, 4), '-', RIGHT(HEX(attachedPhotoId), 12))) AS attachedPhotoId,
+			attachedActivityType, 
+			LOWER(CONCAT(LEFT(HEX(attachedActivityId), 8), '-', MID(HEX(attachedActivityId), 9, 4), '-', MID(HEX(attachedActivityId), 13, 4), '-', MID(HEX(attachedActivityId), 17, 4), '-', RIGHT(HEX(attachedActivityId), 12))) AS attachedActivityId,
+			LOWER(CONCAT(LEFT(HEX(uploadUserId), 8), '-', MID(HEX(uploadUserId), 9, 4), '-', MID(HEX(uploadUserId), 13, 4), '-', MID(HEX(uploadUserId), 17, 4), '-', RIGHT(HEX(uploadUserId), 12))) AS uploadUserId,
+		 	uploadedDate, isDeleted, deletedDate  
 		from attachedphoto
-		where attachedActivityId = #{activityId}
+		where attachedActivityId = UNHEX(REPLACE(#{activityid} , '-', ''))
+		order by uploadedDate desc
 	</select>
 	
 </mapper>

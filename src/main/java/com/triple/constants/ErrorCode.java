@@ -1,5 +1,10 @@
 package com.triple.constants;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum ErrorCode {
 	
 	   //400 BAD_REQUEST 잘못된 요청
@@ -24,23 +29,5 @@ public enum ErrorCode {
 	
 	private final int status;
 	private final String message;
-	
-	ErrorCode(int status, String message) {
-		this.status = status;
-		this.message = message;
-	}
-
-	public int getStatus() {
-		return status;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-	
-	
-	
-	
-	
 	
 }

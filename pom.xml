@@ -8,11 +8,11 @@
 		<version>2.6.7</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.triple</groupId>
-	<artifactId>triple</artifactId>
+	<groupId>com.ssafy</groupId>
+	<artifactId>vue</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>TripleAPI</name>
-	<description>Triple REST-API</description>
+	<name>VueAPI</name>
+	<description>Vue REST-API</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
@@ -87,6 +87,13 @@
 		    <groupId>io.jsonwebtoken</groupId>
 		    <artifactId>jjwt</artifactId>
 		    <version>0.9.1</version>
+		</dependency>
+		
+		<!-- lombok 사용을 위한 의존성 추가 -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.20</version>
 		</dependency>
 	</dependencies>
 

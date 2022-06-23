@@ -4,13 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.triple.mapper.PlaceMapper">
 	
-	
 	<!-- 장소 조회 -->
 	<select id="getPlaceInfo" parameterType="string" resultType="placeDto">
-		select placeId, uploadUserId, uploadedDate, isDeleted, deletedDate
+		select LOWER(CONCAT(LEFT(HEX(placeId), 8), '-', MID(HEX(placeId), 9, 4), '-', MID(HEX(placeId), 13, 4), '-', MID(HEX(placeId), 17, 4), '-', RIGHT(HEX(placeId), 12))) AS placeId,  
+			LOWER(CONCAT(LEFT(HEX(uploadUserId), 8), '-', MID(HEX(uploadUserId), 9, 4), '-', MID(HEX(uploadUserId), 13, 4), '-', MID(HEX(uploadUserId), 17, 4), '-', RIGHT(HEX(uploadUserId), 12))) AS uploadUserId,
+			uploadedDate, isDeleted, deletedDate
 		from place 
-		where placeId = #{placeid}
+		where placeId = UNHEX(REPLACE(#{placeid} , '-', ''))
 	</select>
-	
 	
 </mapper>

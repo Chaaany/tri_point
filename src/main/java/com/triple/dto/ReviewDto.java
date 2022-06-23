@@ -3,6 +3,15 @@ package com.triple.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @ApiModel(value = "Review (리뷰)", description = "여행지에 대한 리뷰 정보의 상세 정보를 나타낸다.")
 public class ReviewDto {
 	@ApiModelProperty(value = "리뷰 id")
@@ -21,71 +30,5 @@ public class ReviewDto {
 	private String modifiedDate;
 	@ApiModelProperty(value = "리뷰 삭제 일자")
 	private String deletedDate;
-	public ReviewDto(String reviewId, String placeId, String userId, String content, int isDeleted, String uploadedDate,
-			String modifiedDate, String deletedDate) {
-		this.reviewId = reviewId;
-		this.placeId = placeId;
-		this.userId = userId;
-		this.content = content;
-		this.isDeleted = isDeleted;
-		this.uploadedDate = uploadedDate;
-		this.modifiedDate = modifiedDate;
-		this.deletedDate = deletedDate;
-	}
-	public String getReviewId() {
-		return reviewId;
-	}
-	public void setReviewId(String reviewId) {
-		this.reviewId = reviewId;
-	}
-	public String getPlaceId() {
-		return placeId;
-	}
-	public void setPlaceId(String placeId) {
-		this.placeId = placeId;
-	}
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
-	public boolean getIsDeleted() {
-		return isDeleted == 1;
-	}
-	public void setIsDeleted(int isDeleted) {
-		this.isDeleted = isDeleted;
-	}
-	public String getUploadedDate() {
-		return uploadedDate;
-	}
-	public void setUploadedDate(String uploadedDate) {
-		this.uploadedDate = uploadedDate;
-	}
-	public String getModifiedDate() {
-		return modifiedDate;
-	}
-	public void setModifiedDate(String modifiedDate) {
-		this.modifiedDate = modifiedDate;
-	}
-	public String getDeletedDate() {
-		return deletedDate;
-	}
-	public void setDeletedDate(String deletedDate) {
-		this.deletedDate = deletedDate;
-	}
-	@Override
-	public String toString() {
-		return "ReviewDto [reviewId=" + reviewId + ", placeId=" + placeId + ", userId=" + userId + ", content="
-				+ content + ", isDeleted=" + isDeleted + ", uploadedDate=" + uploadedDate + ", modifiedDate=" + modifiedDate
-				+ ", deletedDate=" + deletedDate + "]";
-	}
 
-	
 }

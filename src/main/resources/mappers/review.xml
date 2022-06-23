@@ -7,24 +7,33 @@
 	
 	<!-- 전체 리뷰 정보 조회 -->
 	<select id="getAllReviewInfo" resultType="reviewDto">
-		select reviewId, placeId, userId, content, isDeleted, uploadedDate, modifiedDate, deletedDate
+		select LOWER(CONCAT(LEFT(HEX(reviewId), 8), '-', MID(HEX(reviewId), 9, 4), '-', MID(HEX(reviewId), 13, 4), '-', MID(HEX(reviewId), 17, 4), '-', RIGHT(HEX(reviewId), 12))) AS reviewId, 
+		LOWER(CONCAT(LEFT(HEX(placeId), 8), '-', MID(HEX(placeId), 9, 4), '-', MID(HEX(placeId), 13, 4), '-', MID(HEX(placeId), 17, 4), '-', RIGHT(HEX(placeId), 12))) AS placeId, 
+		LOWER(CONCAT(LEFT(HEX(userId), 8), '-', MID(HEX(userId), 9, 4), '-', MID(HEX(userId), 13, 4), '-', MID(HEX(userId), 17, 4), '-', RIGHT(HEX(userId), 12))) AS userId,
+		content, isDeleted, uploadedDate, modifiedDate, deletedDate
 		from review
 		order by uploadedDate
 	</select>
 	
 	<!-- 특정 리뷰 정보 조회 -->
 	<select id="getReviewInfo" parameterType="String" resultType="reviewDto">
-		select reviewId, placeId, userId, content, isDeleted, uploadedDate, modifiedDate, deletedDate
+		select LOWER(CONCAT(LEFT(HEX(reviewId), 8), '-', MID(HEX(reviewId), 9, 4), '-', MID(HEX(reviewId), 13, 4), '-', MID(HEX(reviewId), 17, 4), '-', RIGHT(HEX(reviewId), 12))) AS reviewId, 
+		LOWER(CONCAT(LEFT(HEX(placeId), 8), '-', MID(HEX(placeId), 9, 4), '-', MID(HEX(placeId), 13, 4), '-', MID(HEX(placeId), 17, 4), '-', RIGHT(HEX(placeId), 12))) AS placeId, 
+		LOWER(CONCAT(LEFT(HEX(userId), 8), '-', MID(HEX(userId), 9, 4), '-', MID(HEX(userId), 13, 4), '-', MID(HEX(userId), 17, 4), '-', RIGHT(HEX(userId), 12))) AS userId, 
+		content, isDeleted, uploadedDate, modifiedDate, deletedDate
 		from review
-		where reviewId = #{reviewid}
+		where reviewId = UNHEX(REPLACE(#{reviewid} , '-', ''))
 		order by uploadedDate
 	</select>
 	
 	<!-- 특정 장소에 대한 첫 리뷰 조회 -->
 	<select id="getPlaceFirstReview" parameterType="String" resultType="reviewDto">
-		select reviewId, placeId, userId, content, isDeleted, uploadedDate, modifiedDate, deletedDate
+		select LOWER(CONCAT(LEFT(HEX(reviewId), 8), '-', MID(HEX(reviewId), 9, 4), '-', MID(HEX(reviewId), 13, 4), '-', MID(HEX(reviewId), 17, 4), '-', RIGHT(HEX(reviewId), 12))) AS reviewId, 
+		LOWER(CONCAT(LEFT(HEX(placeId), 8), '-', MID(HEX(placeId), 9, 4), '-', MID(HEX(placeId), 13, 4), '-', MID(HEX(placeId), 17, 4), '-', RIGHT(HEX(placeId), 12))) AS placeId, 
+		LOWER(CONCAT(LEFT(HEX(userId), 8), '-', MID(HEX(userId), 9, 4), '-', MID(HEX(userId), 13, 4), '-', MID(HEX(userId), 17, 4), '-', RIGHT(HEX(userId), 12))) AS userId, 
+		content, isDeleted, uploadedDate, modifiedDate, deletedDate
 		from review 
-		where placeId = #{placeid} and isDeleted = 0
+		where placeId = UNHEX(REPLACE(#{placeid} , '-', '')) and isDeleted = 0
 		order by uploadedDate asc 
 		limit 1
 	</select>
