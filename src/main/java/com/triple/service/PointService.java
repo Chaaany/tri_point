@@ -7,13 +7,13 @@ import com.triple.dto.ReviewEventRequestDto;
 
 public interface PointService {
 	
-	public List<PointDto> getAllUserPoint() throws Exception;
+	public List<PointDto> getAllUserPoint();
 
-	public List<PointDto> getAllPointRecords() throws Exception;
+	public List<PointDto> getAllPointRecords();
 	
-	public PointDto getUserPoint(String userid) throws Exception;
+	public PointDto getUserPoint(String userid);
 
-	public List<PointDto> getUserPointRecords(String userid) throws Exception;
+	public List<PointDto> getUserPointRecords(String userid);
 	
 	public boolean uploadReview(ReviewEventRequestDto eventRequestDto);
 

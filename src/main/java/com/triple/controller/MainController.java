@@ -5,7 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,6 +32,7 @@ import com.triple.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Api("MainController")
@@ -40,36 +40,30 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/")
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @Slf4j
+@RequiredArgsConstructor
 public class MainController {
 
 	private static final String SUCCESS = "success";
 	private static final String FAIL = "fail";
 
-	@Autowired
-	private PointService pointService;
+	private final PointService pointService;
 
-	@Autowired
-	private AttachedPhotoService attachedPhotoService;
+	private final AttachedPhotoService attachedPhotoService;
 
-	@Autowired
-	private PlaceService placeService;
+	private final PlaceService placeService;
 
-	@Autowired
-	private ReviewService reviewService;
+	private final ReviewService reviewService;
 
-	@Autowired
-	private UserService userService;
-	
+	private final UserService userService;
 
 	// Get/ allpoint로 요청이 들어왔다는 가정
 	@ApiOperation(value = "모든 사용자 총 포인트 조회", notes = "모든 user의 총 point 점수를 반환한다. 로직 처리 후 처리 결과에 따라 HttpStatus.OK(200) 및 사용자 총 포인트 점수 또는 HttpStatus.BAD_REQUEST(400)을 반환한다 ")
-	@GetMapping("alluserpoint")	
+	@GetMapping("alluserpoint")
 	public ResponseEntity<?> getAllUserPoint() {
 		
 		try {
 			log.info("request : get all user point score");
 			List<PointDto> allUserPoint = pointService.getAllUserPoint();
-			log.info("response : get all user point score");
 			return new ResponseEntity<List<PointDto>>(allUserPoint, HttpStatus.OK);
 		} catch (Exception e) {
 			log.debug(e.getMessage());

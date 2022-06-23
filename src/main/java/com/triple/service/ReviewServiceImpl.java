@@ -2,61 +2,49 @@ package com.triple.service;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.triple.controller.MainController;
 import com.triple.dto.ReviewDto;
 import com.triple.mapper.ReviewMapper;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class ReviewServiceImpl implements ReviewService {
 
-	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
-	
-	@Autowired
-	private ReviewMapper reviewMapper;
+	private final ReviewMapper reviewMapper;
 
 	@Override
 	public List<ReviewDto> getAllReviewInfo() {
-		try {
-			return reviewMapper.getAllReviewInfo();
-		} catch (Exception e) {
-			logger.debug("get all review error");
-			return null;
-		}
+		log.info("request - ReviewService getAllReviewInfo");
+
+		return reviewMapper.getAllReviewInfo();
 	}
 
 	@Override
 	public ReviewDto getReviewInfo(String reviewid) {
-		try {
-			return reviewMapper.getReviewInfo(reviewid);
-		} catch (Exception e) {
-			logger.debug("get review info error");
-			return null;
-		}
+		log.info("request - ReviewService getReviewInfo");
+
+		return reviewMapper.getReviewInfo(reviewid);
 	}
 
 	@Override
-	public ReviewDto getPlaceFirstReview(String placeid) throws Exception {
-		try {
-			return reviewMapper.getPlaceFirstReview(placeid);
-		} catch (Exception e) {
-			throw new Exception("get place First Review error");
-		}
+	public ReviewDto getPlaceFirstReview(String placeid) {
+		log.info("request - ReviewService getPlaceFirstReview - placeid : " + placeid);
+
+		return reviewMapper.getPlaceFirstReview(placeid);
 	}
 
 	@Override
 	@Transactional
 	public boolean createReviewData(ReviewDto requestDto) {
-		try {
-			return reviewMapper.createReviewData(requestDto) == 1;
-		} catch (Exception e) {
-			logger.debug("review data create error");
-			return false;
-		}
+		log.info("request - ReviewService createReviewData - placeid : " + requestDto.getPlaceId() + ", "
+				+ requestDto.getReviewId());
+
+		return reviewMapper.createReviewData(requestDto) == 1;
 	}
 }

@@ -8,18 +8,23 @@ import lombok.Getter;
 public enum ErrorCode {
 	
    //400 BAD_REQUEST 잘못된 요청
-    INVALID_PARAMETER(400, "파라미터 값을 확인해 주세요."),
+    INVALID_PARAMETER(400, "잘못된 파라미터 값 전송"),
 
     //404 NOT_FOUND 잘못된 리소스 접근
-    DISPLAY_NOT_FOUND(404, "존재하지 않는 전시회 ID 입니다."),
-    FAIR_NOT_FOUND(404, "존재하지 않는 박람회 ID 박람회입니다."),
-    FESTIVAL_NOT_FOUND(404, "존재하지 않는 페스티벌 ID 페스티벌입니다."),
-    SAVED_DISPLAY_NOT_FOUND(404, "저장하지 않은 전시회입니다."),
-    SAVED_FAIR_NOT_FOUND(404, "저장하지 않은 박람회입니다."),
-    SAVED_FESTIVAL_NOT_FOUND(404, "저장하지 않은 페스티벌입니다."),
+    PLACE_NOT_FOUND(404, "존재하지 않는 장소 ID"),
+    USER_NOT_FOUND(404, "존재하지 않는 사용자 ID"),
+    REVIEW_NOT_FOUND(404, "존재하지 않는 리뷰 ID"),
+    ATTACHED_PHOTO_NOT_FOUND(404, "존재하지 않는 첨부사진 ID"),
+    REVIEW_NOT_DELETED(404, "삭제되지 않은 리뷰 ID"),
+    ATTACHED_PHOTO_NOT_DELETED(404, "삭제되지 않은 첨부사진 ID"),
+    
+    REVIEW_INFO_NOT_MATCHED(404, "전송된 정보와 일치 하지 않는 DB상 리뷰 정보"),
+    ATTACHED_PHOTO_INFO_NOT_MATCHED(404, "전송된 정보와 일치 하지 않는 DB상 첨부사진 정보"),
+    
+    
 
     //409 CONFLICT 중복된 리소스
-    ALREADY_SAVED_DISPLAY(409, "이미 저장한 전시회입니다."),
+    POINT_RECORD_ALREADY_EXISTED(409, "이미 저장되어 있는 포인트 ID"),
     ALREADY_SAVED_FAIR(409, "이미 저장한 박람회입니다."),
     ALREADY_SAVED_FESTIVAL(409, "이미 저장한 페스티벌입니다."),
 

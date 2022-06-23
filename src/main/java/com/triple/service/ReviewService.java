@@ -10,7 +10,7 @@ public interface ReviewService {
 
 	public ReviewDto getReviewInfo(String reviewid);
 
-	public ReviewDto getPlaceFirstReview(String placeId) throws Exception;
+	public ReviewDto getPlaceFirstReview(String placeId);
 
 	public boolean createReviewData(ReviewDto requestDto);
 

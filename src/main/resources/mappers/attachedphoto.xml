@@ -32,9 +32,9 @@
 			attachedActivityType, 
 			LOWER(CONCAT(LEFT(HEX(attachedActivityId), 8), '-', MID(HEX(attachedActivityId), 9, 4), '-', MID(HEX(attachedActivityId), 13, 4), '-', MID(HEX(attachedActivityId), 17, 4), '-', RIGHT(HEX(attachedActivityId), 12))) AS attachedActivityId,
 			LOWER(CONCAT(LEFT(HEX(uploadUserId), 8), '-', MID(HEX(uploadUserId), 9, 4), '-', MID(HEX(uploadUserId), 13, 4), '-', MID(HEX(uploadUserId), 17, 4), '-', RIGHT(HEX(uploadUserId), 12))) AS uploadUserId,
-		 	uploadedDate, isDeleted, deletedDate  
+		 	uploadedDate 
 		from attachedphoto
-		where attachedActivityId = UNHEX(REPLACE(#{activityid} , '-', ''))
+		where attachedActivityId = UNHEX(REPLACE(#{activityid} , '-', '')) and isDeleted = 0
 		order by uploadedDate desc
 	</select>
 	

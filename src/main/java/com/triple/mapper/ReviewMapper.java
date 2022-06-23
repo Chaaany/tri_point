@@ -1,17 +1,16 @@
 package com.triple.mapper;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import com.triple.dto.ReviewDto;
 
 public interface ReviewMapper {
 	
-	public List<ReviewDto> getAllReviewInfo() throws SQLException;
+	public List<ReviewDto> getAllReviewInfo();
 	
-	public ReviewDto getReviewInfo(String reviewid) throws SQLException;
+	public ReviewDto getReviewInfo(String reviewid);
 	
-	public ReviewDto getPlaceFirstReview(String placeid) throws SQLException;
+	public ReviewDto getPlaceFirstReview(String placeid);
 
-	public int createReviewData(ReviewDto requestDto) throws SQLException;
+	public int createReviewData(ReviewDto requestDto);
 }
