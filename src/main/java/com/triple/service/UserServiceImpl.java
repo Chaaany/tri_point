@@ -1,11 +1,11 @@
 package com.triple.service;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.triple.constants.ErrorCode.USER_RECORD_ALREADY_EXISTED;
 import com.triple.dto.UserDto;
+import com.triple.exception.CustomException;
 import com.triple.mapper.UserMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -19,13 +19,7 @@ public class UserServiceImpl implements UserService {
 	private final UserMapper userMapper;
 	
 	@Override
-	public List<UserDto> getAllUserInfo() {
-		log.info("request - UserService getAllUserInfo");
-		
-		return userMapper.getAllUserInfo();
-	}
-
-	@Override
+	@Transactional(readOnly = true)
 	public UserDto getUserInfo(String userid) {  
 		log.info("request - UserService getUserInfo userId : " + userid);
 		
@@ -36,6 +30,9 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public boolean createUserData(UserDto requestDto) {
 		log.info("request - UserService createUserData userId : " + requestDto.getUserId());
+		
+		if(userMapper.getUserInfo(requestDto.getUserId()) != null) 
+			throw new CustomException(USER_RECORD_ALREADY_EXISTED);
 		
 		return userMapper.createUserData(requestDto) == 1;
 	}

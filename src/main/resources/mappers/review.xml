@@ -4,18 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.triple.mapper.ReviewMapper">
 	
-	
-	<!-- 전체 리뷰 정보 조회 -->
-	<select id="getAllReviewInfo" resultType="reviewDto">
-		select LOWER(CONCAT(LEFT(HEX(reviewId), 8), '-', MID(HEX(reviewId), 9, 4), '-', MID(HEX(reviewId), 13, 4), '-', MID(HEX(reviewId), 17, 4), '-', RIGHT(HEX(reviewId), 12))) AS reviewId, 
-		LOWER(CONCAT(LEFT(HEX(placeId), 8), '-', MID(HEX(placeId), 9, 4), '-', MID(HEX(placeId), 13, 4), '-', MID(HEX(placeId), 17, 4), '-', RIGHT(HEX(placeId), 12))) AS placeId, 
-		LOWER(CONCAT(LEFT(HEX(userId), 8), '-', MID(HEX(userId), 9, 4), '-', MID(HEX(userId), 13, 4), '-', MID(HEX(userId), 17, 4), '-', RIGHT(HEX(userId), 12))) AS userId,
-		content, isDeleted, uploadedDate, modifiedDate, deletedDate
-		from review
-		order by uploadedDate
-	</select>
-	
-	<!-- 특정 리뷰 정보 조회 -->
+	<!-- 특정 리뷰 정보  id로 조회 -->
 	<select id="getReviewInfo" parameterType="String" resultType="reviewDto">
 		select LOWER(CONCAT(LEFT(HEX(reviewId), 8), '-', MID(HEX(reviewId), 9, 4), '-', MID(HEX(reviewId), 13, 4), '-', MID(HEX(reviewId), 17, 4), '-', RIGHT(HEX(reviewId), 12))) AS reviewId, 
 		LOWER(CONCAT(LEFT(HEX(placeId), 8), '-', MID(HEX(placeId), 9, 4), '-', MID(HEX(placeId), 13, 4), '-', MID(HEX(placeId), 17, 4), '-', RIGHT(HEX(placeId), 12))) AS placeId, 
@@ -24,6 +13,16 @@
 		from review
 		where reviewId = UNHEX(REPLACE(#{reviewid} , '-', ''))
 		order by uploadedDate
+	</select>
+	
+	<!-- 특정 유저, 장소id로 리뷰 정보  조회 -->
+	<select id="getplaceReviewOfSpecificUser" parameterType="String" resultType="reviewDto">
+		select LOWER(CONCAT(LEFT(HEX(reviewId), 8), '-', MID(HEX(reviewId), 9, 4), '-', MID(HEX(reviewId), 13, 4), '-', MID(HEX(reviewId), 17, 4), '-', RIGHT(HEX(reviewId), 12))) AS reviewId, 
+		LOWER(CONCAT(LEFT(HEX(placeId), 8), '-', MID(HEX(placeId), 9, 4), '-', MID(HEX(placeId), 13, 4), '-', MID(HEX(placeId), 17, 4), '-', RIGHT(HEX(placeId), 12))) AS placeId, 
+		LOWER(CONCAT(LEFT(HEX(userId), 8), '-', MID(HEX(userId), 9, 4), '-', MID(HEX(userId), 13, 4), '-', MID(HEX(userId), 17, 4), '-', RIGHT(HEX(userId), 12))) AS userId, 
+		content, isDeleted, uploadedDate, modifiedDate, deletedDate
+		from review
+		where placeId = UNHEX(REPLACE(#{placeid}, '-', '')) and userId = UNHEX(REPLACE(#{userid} , '-', '')) and isDeleted = 0
 	</select>
 	
 	<!-- 특정 장소에 대한 첫 리뷰 조회 -->
@@ -49,8 +48,24 @@
 			UNHEX(REPLACE(#{reviewId} , '-', '')),
 			UNHEX(REPLACE(#{placeId} , '-', '')),
 			UNHEX(REPLACE(#{userId} , '-', '')),
-			content
+			#{content}
 		)
 	</insert>
 	
+	<!-- 리뷰 정보 수정 -->
+	<update id="modifyReview" parameterType="reviewDto">
+		update review 
+		   set content = #{content},
+	   		   modifiedDate = now()
+		 where reviewId = UNHEX(REPLACE(#{reviewId} , '-', ''))
+	</update>
+
+	<!-- 리뷰 정보 삭제-->
+	<update id="deleteReview" parameterType="String">
+		update review 
+		   set isDeleted = 1,
+	   		   deletedDate = now()
+		 where reviewId = UNHEX(REPLACE(#{reviewid} , '-', ''))
+	</update>
+
 </mapper>

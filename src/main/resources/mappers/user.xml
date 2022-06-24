@@ -4,14 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.triple.mapper.UserMapper">
 	
-	<!-- 전체 사용자 조회 -->
-	<select id="getAllUserInfo" resultType="userDto">
-		select LOWER(CONCAT(LEFT(HEX(userId), 8), '-', MID(HEX(userId), 9, 4), '-', MID(HEX(userId), 13, 4), '-', MID(HEX(userId), 17, 4), '-', RIGHT(HEX(userId), 12))) AS userId, 
-		nickname, password, registrationDate, nicknameModifiedDate, isUnsigned, unsignedDate, isRecommendated  
-		from user
-		order by registrationDate
-	</select>
-	
 	<!-- 사용자 조회 -->
 	<select id="getUserInfo" parameterType="string" resultType="userDto">
 		select LOWER(CONCAT(LEFT(HEX(userId), 8), '-', MID(HEX(userId), 9, 4), '-', MID(HEX(userId), 13, 4), '-', MID(HEX(userId), 17, 4), '-', RIGHT(HEX(userId), 12))) AS userId, 
@@ -29,9 +21,9 @@
 			 isRecommendated
 		) values (
 			UNHEX(REPLACE(#{userId} , '-', '')),
-			nickname,
-			password,
-			isRecommendated
+			#{nickname},
+			#{password},
+			#{isRecommendated}
 		)
 	</insert>
 </mapper>

@@ -17,10 +17,10 @@ public class ErrorDto {
 	private int status;
 	@ApiModelProperty(value = "Error message")
 	private String message;
-	
+
 	public ErrorDto(int status, String message) {
 		this.status = status;
 		this.message = message;
 	}
-	
+
 }

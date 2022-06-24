@@ -1,6 +1,5 @@
 package com.triple.service;
 
-
 import com.triple.dto.PlaceDto;
 
 public interface PlaceService {
@@ -8,4 +7,5 @@ public interface PlaceService {
 	public PlaceDto getPlaceInfo(String placeid);
 
 	public boolean createPlaceData(PlaceDto requestDto);
+	
 }

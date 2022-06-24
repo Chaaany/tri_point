@@ -3,7 +3,9 @@ package com.triple.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.triple.constants.ErrorCode.PLACE_RECORD_ALREADY_EXISTED;
 import com.triple.dto.PlaceDto;
+import com.triple.exception.CustomException;
 import com.triple.mapper.PlaceMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,10 @@ public class PlaceServiceImpl implements PlaceService {
 	@Transactional
 	public boolean createPlaceData(PlaceDto requestDto) {
 		log.info("request - PlaceService createPlaceData - placeId : " + requestDto.getPlaceId());
+		
+		if(placeMapper.getPlaceInfo(requestDto.getPlaceId())!= null) throw new CustomException(PLACE_RECORD_ALREADY_EXISTED);
+		
 		return placeMapper.createPlaceData(requestDto) == 1;
 	}
+	
 }

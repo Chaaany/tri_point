@@ -15,7 +15,11 @@ import com.triple.validator.AttachedPhotoIdValidator;
 @Retention(RUNTIME)
 @Constraint(validatedBy = AttachedPhotoIdValidator.class)
 public @interface AttachedPhotoId {
+	
 	String message() default "attachedPhotoIds";
-    Class<?>[] groups() default {};
-    Class<? extends Payload>[] payload() default {};
+
+	Class<?>[] groups() default {};
+
+	Class<? extends Payload>[] payload() default {};
+	
 }

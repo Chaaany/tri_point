@@ -55,7 +55,7 @@ public class ReviewEventRequestDto {
 		this.reviewId = reviewId;
 		this.userId = userId;
 	}
-	
+
 	// "ADD", "MOD" Constructor
 	public ReviewEventRequestDto(@NotNull String type, @NotNull String action, String reviewId, String content,
 			List<String> attachedPhotoIds, String userId, String placeId) {

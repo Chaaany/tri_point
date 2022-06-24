@@ -6,9 +6,9 @@ import com.triple.dto.ReviewDto;
 
 public interface ReviewService {
 
-	public List<ReviewDto> getAllReviewInfo();
-
 	public ReviewDto getReviewInfo(String reviewid);
+
+	public List<ReviewDto> getplaceReviewOfSpecificUser(String placeId, String userId);
 
 	public ReviewDto getPlaceFirstReview(String placeId);
 
